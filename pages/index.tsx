@@ -5,27 +5,50 @@ import { useEffect, useState } from 'react'
 
 import Layout from '../components/Layout'
 import { useAppActions, useAppState } from '../store'
-import Hero from '../components/Hero';
-import AppList from '../components/AppList';
-import AppItem from '../components/AppItem';
-import { addDays, subDays } from 'date-fns';
-import { AppsListType } from '../store/store.model';
+import { addDays, subDays, } from 'date-fns';
+import { EventListType } from '../store/store.model';
 import Placeholder from '../components/Placeholder';
+import EventCard from '../components/EventCard';
 
 const Home: NextPage = () => {
   // const router = useRouter()
-  const appsList: AppsListType = useAppState((state) => state.data.apps)
+  const eventList: EventListType = useAppState((state) => state.data.events)
   const isModalOpen: boolean = useAppState((state) => state.data.ui.isModalOpen)
   const isLoading: boolean = useAppState((state) => state.data.ui.loading)
-  const changeModalOpen = useAppActions(actions => actions.changeModalOpen)
 
   return (
     <>
     <div className="w-full h-full relative">
       <Layout>
-        <div className="space-y-24 mb-24">
-          EPM Event
-        </div>
+        <div className="max-w-6xl flex flex-col w-full mb-24 -mt-36">
+          <p className="urbanist z-50 text-white font-black text-lg ml-32 mb-4">PROCHAINS ÉVÈNEMENTS</p>
+          {eventList.length > 0 && <div className="w-5/6 self-center flex justify-center mb-10">
+            <EventCard
+              image={eventList[0][0].image}
+              title={eventList[0][0].title.toUpperCase()}
+              time={eventList[0][0].date}
+              address={eventList[0][0].address}
+              station={eventList[0][0].station}
+              link="/"
+            />
+          </div>}
+          {eventList.map((events, i) => {
+            if (i === 0) return undefined
+            return (<div className="w-5/6 self-center grid grid-cols-2 gap-10 justify-center">
+                {events.map(event => (
+                  <EventCard 
+                    split={true}
+                    image={event.image}
+                    title={event.title}
+                    time={event.date}
+                    address={event.address}
+                    station={event.station}
+                    link="/"
+                  />
+                ))}
+              </div>)
+            })}
+          </div>
         <div className="mt-auto">
           <p>Fait avec ❤️ à EPM-Com</p>
         </div>

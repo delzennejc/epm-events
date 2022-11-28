@@ -5,64 +5,63 @@ import { Thunk, Action, Actions, State, StateMapper, Computed, ThunkOn, ActionOn
  */
 
  export interface UserType {
-     email?: string;
-     upvotes: string[];
+    first_name: string;
+    last_name: string;
+    email?: string;
+    phone?: string;
+    events: EventType[];
+    children?: number;
+    invited: InviteType[];
+ }
+
+ export interface InviteType {
+    event_id: string;
+    first_name: string;
+    last_name: string;
+    email?: string;
+    phone?: string;
+    children: null;
  }
 
  /**
- * Apps
+ * Event
  */
 
- export interface AppsType {
+ export interface EventType {
     id: string;
-    rank: number;
-    name: string;
-    logo: string;
-    short_description: string;
-    description: JSON;
-    images: string[];
-    link: string;
-    token_id: string;
-    upvotes: number;
-    blockchains: string[];
+    image: string;
+    title: string;
+    description: string;
+    date: Date;
+    address: string;
+    station: string;
+    max_size: number;
+    participants: InviteType[]; // To Define Object[]
     tags: string[];
+    link: string;
     published_at: Date;
     created_at: Date;
 }
 
  /**
- * AppsList
+ * EventList
  */
 
-export interface AppsListType {
-    [key: string]: AppsType[]
-}
+export type EventListType = EventType[][]
 
  /**
  * Actions
  */
 
- export interface ChangeModalOpenType {
+export interface ChangeModalOpenType {
     isModalOpen: boolean;
-    selectedApp: AppsType;
- }
+    selectedEvent: EventType;
+}
 
- export interface ChangeViewerOpenType {
+export interface ChangeViewerOpenType {
     isViewerOpen: boolean;
     index: number;
- }
-
- export interface UpdateUpvotesType {
-    id: string;
-    upvotes: number;
-    key: string;
- }
-
- export interface ChangeUpvotesType {
-    id: string;
-    substract?: boolean;
-    key: string;
- }
+}
 
 
 /**
@@ -77,8 +76,8 @@ export type StoreActionsParams = (param: StoreActions) => any
 
 export interface StoreDataType {
     user: UserType;
-    apps: AppsListType;
-    selectedApp: AppsType | null;
+    events: EventListType;
+    selectedEvent: EventType | null;
     ui: {
         loading: boolean;
         isModalOpen: boolean;
@@ -90,15 +89,13 @@ export interface StoreDataType {
 
 export interface StoreActionType {
     changeLoading: Action<StoreType, boolean>;
-    changeIsMobile: Action<StoreType, boolean>;
     initializeStore: Thunk<StoreActionType, void, any, StoreType>;
+    changeIsMobile: Action<StoreType, boolean>;
     changeModalOpen: Action<StoreType, ChangeModalOpenType>;
     changeViewerOpen: Action<StoreType, ChangeViewerOpenType>;
-    changeUpvote: Action<StoreType, ChangeUpvotesType>;
     removeModal: Action<StoreType, void>;
-    addApps: Action<StoreType, AppsType[]>;
-    getApps: Thunk<StoreActionType, void, any, StoreType>;
-    updateUpvotes: Thunk<StoreActionType, UpdateUpvotesType, any, StoreType>
+    addEvents: Action<StoreType, EventType[]>;
+    getEvents: Thunk<StoreActionType, void, any, StoreType>;
 }
 
 

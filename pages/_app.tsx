@@ -19,8 +19,7 @@ import * as ga from '../utils/ga'
 import AppHead from '../components/AppHead';
 import App from 'next/app';
 import { useDisableBodyScroll } from '../utils/hooks';
-import { AppsListType, AppsType } from '../store/store.model';
-import AppsDetails from '../components/AppsDetails';
+import { EventListType, EventType } from '../store/store.model';
 
 interface MyAppProps {
   Component: () => ReactElement;
@@ -44,8 +43,8 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   const responsive = useResponsive()
   const isModalOpen: boolean = useAppState((state) => state.data.ui.isModalOpen)
   const isMobile: boolean = useAppState((state) => state.data.ui.isMobile)
-  const selectedApp: AppsType = useAppState((state) => state.data.selectedApp)
-  const apps: AppsListType = useAppState((state) => state.data.apps)
+  const selectedEvent: EventType = useAppState((state) => state.data.selectedEvent)
+  const events: EventListType = useAppState((state) => state.data.events)
   const changeModalOpen = useAppActions(actions => actions.changeModalOpen)
   const isViewerOpen: boolean = useAppState((state) => state.data.ui.isViewerOpen)
   const currentImg: number = useAppState((state) => state.data.ui.currentImg)
@@ -89,11 +88,11 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   const urlDetails = router.query.productId
   useEffect(() => {
     if (urlDetails) {
-      const allApps = _.flatMap(apps)
-      const selectedApp = allApps.find(app => app.id === urlDetails)
-      changeModalOpen({ isModalOpen: true, selectedApp })
+      const allEvents = _.flatMap(events)
+      const selectedEvent = allEvents.find(event => event.id === urlDetails)
+      changeModalOpen({ isModalOpen: true, selectedEvent })
     }
-  }, [urlDetails, apps])
+  }, [urlDetails, events])
 
   
   useDisableBodyScroll(isModalOpen)
@@ -130,16 +129,6 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
     <div className="flex flex-row w-full h-full min-h-screen">
       <Component {...pageProps} />
     </div>
-    {isViewerOpen && (
-      <ImageViewer
-        src={selectedApp?.images || []}
-        currentIndex={currentImg}
-        disableScroll={false}
-        closeOnClickOutside={true}
-        onClose={closeImageViewer}
-        backgroundStyle={{ zIndex: 50 }}
-      />
-    )}
     <Modal 
       isOpen={isModalOpen}
       onRequestClose={closeModal}
@@ -147,13 +136,13 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
       preventScroll={false}
       ariaHideApp={false}
     >
-    <img 
-      className="absolute w-7 h-7 -top-10 right-2 md:-top-10 md:-right-24 cursor-pointer z-40"
-      src="/close-button.svg"
-      alt="close button"
-      onClick={closeModal}
-    />
-      <AppsDetails />
+      <img 
+        className="absolute w-7 h-7 -top-10 right-2 md:-top-10 md:-right-24 cursor-pointer z-40"
+        src="/close-button.svg"
+        alt="close button"
+        onClick={closeModal}
+      />
+      EPM Event
     </Modal>
   </>)
 }

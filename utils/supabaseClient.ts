@@ -6,7 +6,7 @@ if (!supabaseAnonKey) {
   throw new Error("Please set the public key");
 }
 const supabaseClient = createClient(
-  supabaseUrl ?? "https://nbgqjqtzffscrtbtaidl.supabase.co",
+  supabaseUrl ?? "https://dlaneecirxiecwhtelqh.supabase.co",
   supabaseAnonKey
 );
 

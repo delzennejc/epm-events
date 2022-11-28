@@ -1,14 +1,14 @@
 import Head from "next/head"
 import { useStoreRehydrated } from 'easy-peasy'
 import { useEffect } from "react";
-import { AppsType } from "../store/store.model";
+import { EventType } from "../store/store.model";
 import { useAppState } from "../store";
 
 const isNotDevelopment = (process.env.NODE_ENV !== "development") && (typeof window !== 'undefined');
 
 const AppHead = () => {
-    const selectedApp: AppsType = useAppState((state) => state.data.selectedApp)
-    const title = selectedApp?.id ? `${selectedApp?.name} - ${selectedApp?.short_description}` : "Builda - Discover tomorrow's crypto apps, today."
+    const selectedApp: EventType = useAppState((state) => state.data.selectedApp)
+    const title = selectedApp?.id ? `${selectedApp?.name} - ${selectedApp?.short_description}` : "Eglise Paris Metropole - Évènements"
     return (
         <Head>
             <title>{title}</title>
@@ -16,11 +16,11 @@ const AppHead = () => {
             <meta property="og:title" content={title} />
             <meta property="og:type" content="website" />
             <meta property="og:image" content="https://www.builda.dev/logo.png" />
-            <meta property="og:description" content="Builda is a community of early adopters and builders showcasing crypto related products and exchanging feedback." />
+            <meta property="og:description" content="Participés à des évènements que l'église organise." />
             <meta name="google-site-verification" content="t0DrQCo_DhHZsABPrynvdryLPkSjSowC_JQw6j3Tp_M" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Urbanist:ital,wght@0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500;600;700;800;900&family=Urbanist:wght@800;900&display=swap" rel="stylesheet" />
 
             <link rel="icon" href="/favicon.ico" />
             {isNotDevelopment && (
