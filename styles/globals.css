@@ -41,6 +41,10 @@ h1, p, span {
   filter: drop-shadow(0px 12px 10px rgba(194, 30, 79, 0.15));
 }
 
+.map-drop-shadow {
+  filter: drop-shadow(0px 3px 3px rgba(102, 26, 50, 0.24));
+}
+
 .title-shadow {
   text-shadow: 1px 5px 6px rgba(0, 0, 0, 0.25);
 }
@@ -178,64 +182,16 @@ h3 {
   background: linear-gradient(90deg, #E45174 0%, #E0A141 104.22%);
 }
 
-.light-text-purple {
-  color: #D0CBEC;
+.text-title-orange {
+  color: #D85D83;
 }
 
-.dark-text-purple {
-  color: #594BB1;
+.text-tag-orange {
+  color: #C54939;
 }
 
-.dark-text-orange {
-  background: linear-gradient(90deg, #E36766 4.49%, #E28156 55.01%, #E09C45 102.47%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-}
-
-.light-purple {
-  background-color: #362E71;
-  -webkit-transition: background 0.2s 0s ease;
-  -moz-transition: background 0.2s 0s ease;
-  -o-transition: background 0.2s 0s ease;
-  transition: background 0.2s 0s ease;
-}
-
-.light-purple:hover {
-  background-color: #413983;
-  -webkit-transition: background 0.5s 0s ease;
-  -moz-transition: background 0.5s 0s ease;
-  -o-transition: background 0.5s 0s ease;
-  transition: background 0.5s 0s ease;
-}
-
-.light-purple-2 {
-  background-color: #C1B8FB;
-}
-
-.light-purple-3 {
-  background-color: #4D4190;
-}
-
-.light-purple-4 {
-  background-color: #594BB1;
-}
-
-.dark-purple {
-  background-color: #211E4B;
-}
-
-.gold {
-  color: #FFBE52;
-}
-
-.silver {
-  color: #C5CCEE;
-}
-
-.bronze {
-  color: #E4846D;
+.bg-tag-orange {
+  background-color: #FFDBD7;
 }
 
 .tag-shadow {

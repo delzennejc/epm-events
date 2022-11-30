@@ -37,7 +37,7 @@ import { Thunk, Action, Actions, State, StateMapper, Computed, ThunkOn, ActionOn
     station: string;
     max_size: number;
     participants: InviteType[]; // To Define Object[]
-    tags: string[];
+    tags: string;
     link: string;
     published_at: Date;
     created_at: Date;

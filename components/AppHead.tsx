@@ -7,8 +7,8 @@ import { useAppState } from "../store";
 const isNotDevelopment = (process.env.NODE_ENV !== "development") && (typeof window !== 'undefined');
 
 const AppHead = () => {
-    const selectedApp: EventType = useAppState((state) => state.data.selectedApp)
-    const title = selectedApp?.id ? `${selectedApp?.name} - ${selectedApp?.short_description}` : "Eglise Paris Metropole - Évènements"
+    const selectedEvent: EventType = useAppState((state) => state.data.selectedEvent)
+    const title = selectedEvent?.id ? `${selectedEvent?.title} - EPM Event` : "Eglise Paris Metropole - Évènements"
     return (
         <Head>
             <title>{title}</title>

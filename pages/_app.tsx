@@ -57,7 +57,7 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
 
   const closeModal = () => {
     changeModalOpen({ isModalOpen: false })
-    router.push('/', undefined, { shallow: true })
+    // router.push('/', undefined, { shallow: true })
   }
 
   const rehydrated = useStoreRehydrated();
@@ -85,12 +85,12 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
     }
   }, [router.events])
 
-  const urlDetails = router.query.productId
+  const urlDetails = router.query.eventId
   useEffect(() => {
     if (urlDetails) {
       const allEvents = _.flatMap(events)
       const selectedEvent = allEvents.find(event => event.id === urlDetails)
-      changeModalOpen({ isModalOpen: true, selectedEvent })
+      changeModalOpen({ isModalOpen: false, selectedEvent })
     }
   }, [urlDetails, events])
 

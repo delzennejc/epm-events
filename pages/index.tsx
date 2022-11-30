@@ -29,7 +29,7 @@ const Home: NextPage = () => {
               time={eventList[0][0].date}
               address={eventList[0][0].address}
               station={eventList[0][0].station}
-              link="/"
+              link={`/event/${eventList[0][0].id}`}
             />
           </div>}
           {eventList.map((events, i) => {
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
                     time={event.date}
                     address={event.address}
                     station={event.station}
-                    link="/"
+                    link={`/event/${event.id}`}
                   />
                 ))}
               </div>)

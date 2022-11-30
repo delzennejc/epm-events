@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { fr } from 'date-fns/locale'
 import { addDays, subDays, format } from 'date-fns';
 import { useAppActions } from "../store";
+import { useRouter } from "next/router";
 
 interface EventCardType {
     split?: boolean;
@@ -15,14 +16,19 @@ interface EventCardType {
 }
 
 const EventCard = ({ image, title, time, address, station, link, split = false }: EventCardType) => {
-    const imageStyle = split ? 'w-full h-40 rounded-lg' : 'w-full h-60 rounded-3xl'
-    const rounded = split ? 'rounded-lg' : 'rounded-3xl'
+    const router = useRouter()
+    const imageStyle = split ? 'w-full h-40 rounded-lg' : 'w-full h-60 rounded-xl'
+    const rounded = split ? 'rounded-lg' : 'rounded-xl'
     const layoutStyle = split ? 'px-3 py-3' : 'px-5 py-5'
     const titleSize = split ? 'w-11/12 text-2xl' : 'w-4/6 text-4xl'
     const textStyle = split ? 'space-x-3 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const textStyle2 = split ? 'space-x-3.5 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const buttonStyle = split ? 'w-full text-center mt-5 mr-2' : 'ml-auto'
-    return (<div className={`card-drop-shadow w-full flex flex-col items-center ${layoutStyle} bg-white rounded-2xl cursor-pointer`}>
+    return (
+    <div 
+        className={`card-drop-shadow w-full flex flex-col items-center ${layoutStyle} bg-white rounded-2xl cursor-pointer`}
+        onClick={() => router.push(link)}
+    >
         <div className="relative w-full flex flex-col">
             <div className={`relative w-full z-10 ${rounded} overflow-hidden`}>
                 <div 
@@ -44,7 +50,7 @@ const EventCard = ({ image, title, time, address, station, link, split = false }
             </div>
             <div className="image-shadow self-center z-0"></div>
             <p className={`title-shadow absolute z-30 bottom-5 left-5 ${titleSize} text-white font-black leading-snug`}>
-               {title}
+               {title.toUpperCase()}
             </p>
         </div>
         <div className={`w-full flex ${split ? 'flex-col mb-4' : 'mb-5'} self-start mt-6 ml-5 pr-5`}>
@@ -62,7 +68,7 @@ const EventCard = ({ image, title, time, address, station, link, split = false }
                     <span>{station}</span>
                 </p>
             </div>
-            <Link href="/">
+            <Link href={link}>
                 <p className={`urbanist ${buttonStyle} linear-main-color rounded-md self-end text-white font-black py-2 px-6 cursor-pointer`}>
                     PLUS D'INFOS
                 </p>
