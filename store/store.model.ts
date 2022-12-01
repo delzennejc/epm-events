@@ -1,26 +1,39 @@
 import { Thunk, Action, Actions, State, StateMapper, Computed, ThunkOn, ActionOn } from 'easy-peasy'
-
+import { string } from 'yup';
 /**
  * USER DATA
  */
 
  export interface UserType {
+    id: string;
     first_name: string;
     last_name: string;
     email?: string;
     phone?: string;
-    events: EventType[];
-    children?: number;
+    event_ids: string[];
+    children: number;
     invited: InviteType[];
  }
 
  export interface InviteType {
-    event_id: string;
+    id: string;
+    event_ids: string[];
     first_name: string;
     last_name: string;
     email?: string;
     phone?: string;
-    children: null;
+    children: number;
+ }
+
+ export interface ParticipantsType {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    children: number;
+    isChildren: boolean;
+    invited?: InviteType[];
  }
 
  /**
@@ -36,7 +49,7 @@ import { Thunk, Action, Actions, State, StateMapper, Computed, ThunkOn, ActionOn
     address: string;
     station: string;
     max_size: number;
-    participants: InviteType[]; // To Define Object[]
+    participants: InviteType[];
     tags: string;
     link: string;
     published_at: Date;
@@ -55,12 +68,30 @@ export type EventListType = EventType[][]
 
 export interface ChangeModalOpenType {
     isModalOpen: boolean;
-    selectedEvent: EventType;
 }
 
-export interface ChangeViewerOpenType {
-    isViewerOpen: boolean;
-    index: number;
+export interface AddParticipantsType {
+    eventId: string;
+    participants: ParticipantsType[];
+    type?: 'invite' | 'user'
+}
+
+export interface RemoveParticipantType {
+    eventId: string;
+    participant: ParticipantsType;
+}
+
+export interface DeleteUserType {
+    user: ParticipantsType;
+}
+
+export interface EditUserType {
+    user: InviteType;
+    type: 'invite' | 'user';
+}
+
+export interface ChangeSelectedEventType {
+    selectedEvent: EventType;
 }
 
 
@@ -78,12 +109,14 @@ export interface StoreDataType {
     user: UserType;
     events: EventListType;
     selectedEvent: EventType | null;
+    selectedUser: EditUserType | null;
     ui: {
         loading: boolean;
         isModalOpen: boolean;
-        isViewerOpen: boolean;
-        currentImg: number;
         isMobile: boolean;
+        addParticipantSuccess: boolean;
+        isEditUser: boolean;
+        isAddInvite: boolean;
     };
 }
 
@@ -92,10 +125,18 @@ export interface StoreActionType {
     initializeStore: Thunk<StoreActionType, void, any, StoreType>;
     changeIsMobile: Action<StoreType, boolean>;
     changeModalOpen: Action<StoreType, ChangeModalOpenType>;
-    changeViewerOpen: Action<StoreType, ChangeViewerOpenType>;
-    removeModal: Action<StoreType, void>;
+    changeAddNewInvite: Action<StoreType, boolean>;
+    changeSelectedEvent: Action<StoreType, ChangeSelectedEventType>;
+    addEventToUser: Action<StoreType, AddParticipantsType>;
+    removeEventToUser: Action<StoreType, RemoveParticipantType>;
+    deleteUser: Action<StoreType, DeleteUserType>;
+    editUser: Action<StoreType, EditUserType>;
+    saveEditedUser: Action<StoreType, EditUserType>;
     addEvents: Action<StoreType, EventType[]>;
     getEvents: Thunk<StoreActionType, void, any, StoreType>;
+    addParticipants: Thunk<StoreActionType, AddParticipantsType, any, StoreType>;
+    editParticipant: Thunk<StoreActionType, EditUserType, any, StoreType>;
+    removeParticipant: Thunk<StoreActionType, RemoveParticipantType, any, StoreType>;
 }
 
 

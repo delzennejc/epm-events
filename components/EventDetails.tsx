@@ -3,17 +3,25 @@ import { useEffect } from "react";
 import { useAppActions, useAppState } from "../store";
 import { fr } from 'date-fns/locale'
 import { addDays, subDays, format } from 'date-fns';
-import { EventType } from "../store/store.model";
+import { EventType, UserType } from "../store/store.model";
 import LocationMap from "./LocationMap";
 
 interface EventDetailsType {}
 
 const EventDetails = ({}: EventDetailsType) => {
     const router = useRouter()
+    const user: UserType = useAppState(state => state.data.user)
     const selectedEvent: EventType = useAppState(state => state.data.selectedEvent)
+    const changeModalOpen = useAppActions(actions => actions.changeModalOpen)
     if (!selectedEvent) {
         return null
     }
+    const isRegistered = user.event_ids.includes(selectedEvent?.id) || user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), false)
+    const hasPlace = (selectedEvent?.participants?.length || 0) < selectedEvent?.max_size ?? true
+    const buttonStyleAlt = isRegistered ? `text-title-orange bg-white map-drop-shadow` : 'suggest text-white'
+    const buttonStyle = !hasPlace ? 'bg-gray-300 text-gray-500' : buttonStyleAlt
+    const buttonTextAlt = isRegistered ? "SE DÉSINSCRIRE" : "JE M'INSCRIS"
+    const buttonText = !hasPlace ? "COMPLET" : buttonTextAlt
     return (<div className="flex flex-col items-center space-y-8">
         <div className="relative w-full flex flex-col">
             <div className={`relative w-full z-10 rounded-3xl overflow-hidden`}>
@@ -54,12 +62,12 @@ const EventDetails = ({}: EventDetailsType) => {
                 </div>
             </div>
             <div className="flex flex-col w-3/12">
-                    <button className="urbanist suggest font-black text-white py-2 rounded-lg mb-6">
-                        JE M'INSCRIS
+                    <button disabled={!hasPlace} onClick={() => changeModalOpen({ isModalOpen: true })} className={`urbanist ${buttonStyle} font-black py-2 rounded-lg mb-6`}>
+                        {buttonText}
                     </button>
                     <div className="flex space-x-2 self-start items-center justify-cente bg-tag-orange px-5 py-1.5 rounded-full mb-10">
-                        <img className="h-4" src={`/icon-restaurant.svg`} alt="Catégorie" />
-                        <p className="urbanist text-tag-orange font-black">{selectedEvent.tags.toLocaleUpperCase()}</p>
+                        <img className="" src={`/icon-restaurant.svg`} alt="Catégorie" />
+                        <p className="urbanist text-tag-orange font-black text-sm">{selectedEvent.tags.toLocaleUpperCase()}</p>
                     </div>
                     <div className="flex flex-col space-y-5">
                         <div className="flex space-x-3 justify-start items-start">

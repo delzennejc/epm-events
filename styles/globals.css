@@ -49,6 +49,10 @@ h1, p, span {
   text-shadow: 1px 5px 6px rgba(0, 0, 0, 0.25);
 }
 
+.bg-list > div:nth-child(odd)  {
+  background: #FCF9FA;
+}
+
 .image-shadow {
   width: 95%;
   height: 120px;
@@ -182,6 +186,13 @@ h3 {
   background: linear-gradient(90deg, #E45174 0%, #E0A141 104.22%);
 }
 
+.text-linear-orange {
+  background: linear-gradient(90deg, #E45174 0%, #E0A141 104.22%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .text-title-orange {
   color: #D85D83;
 }
@@ -192,6 +203,10 @@ h3 {
 
 .bg-tag-orange {
   background-color: #FFDBD7;
+}
+
+.bg-input-orange {
+  background-color: #F9F4F6;
 }
 
 .tag-shadow {

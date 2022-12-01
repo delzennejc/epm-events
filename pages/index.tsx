@@ -24,6 +24,7 @@ const Home: NextPage = () => {
           <p className="urbanist z-50 text-white font-black text-lg ml-32 mb-4">PROCHAINS ÉVÈNEMENTS</p>
           {eventList.length > 0 && <div className="w-5/6 self-center flex justify-center mb-10">
             <EventCard
+              id={eventList[0][0].id}
               image={eventList[0][0].image}
               title={eventList[0][0].title.toUpperCase()}
               time={eventList[0][0].date}
@@ -38,6 +39,7 @@ const Home: NextPage = () => {
                 {events.map(event => (
                   <EventCard 
                     split={true}
+                    id={event.id}
                     image={event.image}
                     title={event.title}
                     time={event.date}

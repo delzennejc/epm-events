@@ -2,10 +2,12 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { fr } from 'date-fns/locale'
 import { addDays, subDays, format } from 'date-fns';
-import { useAppActions } from "../store";
+import { useAppActions, useAppState } from "../store";
 import { useRouter } from "next/router";
+import { EventType, UserType } from "../store/store.model";
 
 interface EventCardType {
+    id: string;
     split?: boolean;
     image: string;
     title: string;
@@ -15,8 +17,9 @@ interface EventCardType {
     link: string;
 }
 
-const EventCard = ({ image, title, time, address, station, link, split = false }: EventCardType) => {
+const EventCard = ({ id, image, title, time, address, station, link, split = false }: EventCardType) => {
     const router = useRouter()
+    const user: UserType = useAppState(state => state.data.user)
     const imageStyle = split ? 'w-full h-40 rounded-lg' : 'w-full h-60 rounded-xl'
     const rounded = split ? 'rounded-lg' : 'rounded-xl'
     const layoutStyle = split ? 'px-3 py-3' : 'px-5 py-5'
@@ -24,6 +27,8 @@ const EventCard = ({ image, title, time, address, station, link, split = false }
     const textStyle = split ? 'space-x-3 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const textStyle2 = split ? 'space-x-3.5 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const buttonStyle = split ? 'w-full text-center mt-5 mr-2' : 'ml-auto'
+    const isRegistered = user.event_ids.includes(id) || user.invited.reduce((curr, val) => val.event_ids.includes(id), false)
+    const buttonAltStyle = isRegistered ? 'text-title-orange bg-white map-drop-shadow' : 'suggest text-white'
     return (
     <div 
         className={`card-drop-shadow w-full flex flex-col items-center ${layoutStyle} bg-white rounded-2xl cursor-pointer`}
@@ -69,8 +74,8 @@ const EventCard = ({ image, title, time, address, station, link, split = false }
                 </p>
             </div>
             <Link href={link}>
-                <p className={`urbanist ${buttonStyle} linear-main-color rounded-md self-end text-white font-black py-2 px-6 cursor-pointer`}>
-                    PLUS D'INFOS
+                <p className={`urbanist ${buttonStyle} ${buttonAltStyle} rounded-md self-end font-black py-2 px-6 cursor-pointer`}>
+                    {isRegistered ? "INSCRIT" : "PLUS D'INFOS"}
                 </p>
             </Link>
         </div>

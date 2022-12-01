@@ -19,7 +19,10 @@ import * as ga from '../utils/ga'
 import AppHead from '../components/AppHead';
 import App from 'next/app';
 import { useDisableBodyScroll } from '../utils/hooks';
-import { EventListType, EventType } from '../store/store.model';
+import { EventListType, EventType, UserType } from '../store/store.model';
+import ModalRegistration from '../components/ModalRegistration';
+import ModalRegistrationDone from '../components/ModalRegistrationDone';
+import ModalUnregistration from '../components/ModalUnregistration';
 
 interface MyAppProps {
   Component: () => ReactElement;
@@ -43,21 +46,18 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   const responsive = useResponsive()
   const isModalOpen: boolean = useAppState((state) => state.data.ui.isModalOpen)
   const isMobile: boolean = useAppState((state) => state.data.ui.isMobile)
+  const isAddInvite: boolean = useAppState(state => state.data.ui.isAddInvite)
+  const isEditUser: boolean = useAppState(state => state.data.ui.isEditUser)
   const selectedEvent: EventType = useAppState((state) => state.data.selectedEvent)
+  const user: UserType = useAppState((state) => state.data.user)
+  const addParticipantSuccess: boolean = useAppState((state) => state.data.ui.addParticipantSuccess)
   const events: EventListType = useAppState((state) => state.data.events)
   const changeModalOpen = useAppActions(actions => actions.changeModalOpen)
-  const isViewerOpen: boolean = useAppState((state) => state.data.ui.isViewerOpen)
-  const currentImg: number = useAppState((state) => state.data.ui.currentImg)
-  const changeViewerOpen = useAppActions(actions => actions.changeViewerOpen)
+  const changeSelectedEvent = useAppActions(actions => actions.changeSelectedEvent)
   const changeIsMobile = useAppActions(actions => actions.changeIsMobile)
-
-  const closeImageViewer = () => {
-    changeViewerOpen({ isViewerOpen: false, index: 0 })
-  };
 
   const closeModal = () => {
     changeModalOpen({ isModalOpen: false })
-    // router.push('/', undefined, { shallow: true })
   }
 
   const rehydrated = useStoreRehydrated();
@@ -90,7 +90,7 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
     if (urlDetails) {
       const allEvents = _.flatMap(events)
       const selectedEvent = allEvents.find(event => event.id === urlDetails)
-      changeModalOpen({ isModalOpen: false, selectedEvent })
+      changeSelectedEvent({ selectedEvent })
     }
   }, [urlDetails, events])
 
@@ -98,32 +98,38 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   useDisableBodyScroll(isModalOpen)
   
   const customStyles: any = {
+    portal: {
+      paddingBottom: '100px'
+    },
     content: {
-      position: 'absolute',
+      position: 'relative',
       display: "block",
-      top: isMobile ? '10%' : '10%',
+      top: isMobile ? '10%' : '5%',
       left: isMobile ? '50%' : '50%',
       right: 'auto',
       bottom: 'auto',
       height: 'auto',
-      width: isMobile ? '94vw' : 800,
+      width: isMobile ? '94vw' : 650,
       borderRadius: isMobile ? "10px" : "10px",
       transform: isMobile ? 'translate(-50%, 0%)' : 'translate(-50%, 0%)',
       border: 'none',
       overflow: 'visible',
       WebkitOverflowScrolling: 'touch',
       zIndex: 40,
-      background: "#362E71",
+      background: "#FFFFFF",
+      marginBottom: "100px",
     },
     overlay: {
-      background: "rgba(0, 0, 0, 60%)",
+      background: "linear-gradient(93.67deg, rgba(124, 52, 74, 0.5) -4.76%, rgba(137, 61, 58, 0.5) 51.75%, rgba(140, 87, 58, 0.5) 108.25%)",
       zIndex: 35,
       overflowY: "auto",
-      overflowX: isMobile ? 'hidden' : undefined
+      overflowX: isMobile ? 'hidden' : undefined,
     }
   };
 
   if (!rehydrated) return null
+
+  const isRegistered = selectedEvent ? user.event_ids.includes(selectedEvent?.id) || user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), false) : false
 
   return (<>
     <div className="flex flex-row w-full h-full min-h-screen">
@@ -137,12 +143,15 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
       ariaHideApp={false}
     >
       <img 
-        className="absolute w-7 h-7 -top-10 right-2 md:-top-10 md:-right-24 cursor-pointer z-40"
+        className="absolute w-7 h-7 top-4 right-6 cursor-pointer z-40"
         src="/close-button.svg"
         alt="close button"
         onClick={closeModal}
       />
-      EPM Event
+      {addParticipantSuccess 
+        ? <ModalRegistrationDone />
+        : (isRegistered && !isEditUser && !isAddInvite) ? <ModalUnregistration /> : <ModalRegistration />
+      }
     </Modal>
   </>)
 }
