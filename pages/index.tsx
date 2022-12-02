@@ -37,7 +37,7 @@ const Home: NextPage = () => {
             if (i === 0) return undefined
             return (<div className="w-5/6 self-center grid grid-cols-2 gap-10 justify-center">
                 {events.map(event => (
-                  <EventCard 
+                  <EventCard
                     split={true}
                     id={event.id}
                     image={event.image}

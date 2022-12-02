@@ -81,7 +81,6 @@ export const storeModelData = {
                             state.data.user.invited.push({
                                 event_ids: [payload.eventId],
                                 ...invitee,
-                                children: 0,
                             })
                         }
                     }

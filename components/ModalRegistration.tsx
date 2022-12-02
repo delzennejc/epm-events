@@ -18,7 +18,7 @@ const registrationSchema = Yup.object().shape({
             email: Yup.string().trim().email('Email Invalide').required('Requis'),
             phone: Yup.string().trim().min(10, 'Téléphone doit contenir 10 chiffre').matches(/0[1-9]([0-9][0-9])+/, "Téléphone n'est pas un numéro").required('Requis'),
             isChildren: Yup.boolean(),
-            children: Yup.number().required('Requis'),
+            children: Yup.number(),
         })
     )
 })
@@ -130,7 +130,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                     setSubmitting(false)
                 } else {
                     console.log('Create, ', values)
-                    const vals = values.friends.map(val => ({ ...val, id: uuidv4() }))
+                    const vals = values.friends.map(val => ({ ...val, id: uuidv4(), children: val.children ? val.children : 0 }))
                     addParticipants({ participants: vals, eventId: selectedEvent.id })
                     setSubmitting(false)
                 }
