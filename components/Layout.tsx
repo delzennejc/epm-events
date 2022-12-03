@@ -12,7 +12,7 @@ interface LayoutType {
 const Layout = ({ children, className = '' }: LayoutType) => {
     const router = useRouter()
     const isEventPage = router.pathname.includes('event')
-    const eventLayoutStyle = isEventPage ? 'h-24' : 'h-40 md:h-52'
+    const eventLayoutStyle = isEventPage ? 'h-24' : 'h-52'
 
     return (<>
         <div className={`relative z-10 flex flex-col items-center justify-center w-full h-full pb-14`}>

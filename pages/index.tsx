@@ -20,7 +20,7 @@ const Home: NextPage = () => {
     <>
     <div className="w-full h-full relative">
       <Layout>
-        <div className="max-w-6xl flex flex-col w-full mb-24 -mt-36">
+        <div className="max-w-6xl flex flex-col w-full mb-24 -mt-36 md:-mt-36">
           <p className="urbanist z-50 text-white font-black text-lg ml-14 md:ml-32 mb-4">PROCHAINS ÉVÈNEMENTS</p>
           {eventList.length > 0 && <div className="w-5/6 self-center flex justify-center mb-10">
             <EventCard
