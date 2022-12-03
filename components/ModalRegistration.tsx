@@ -76,7 +76,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
         }
     }
 
-    return (<div className="px-16 py-6">
+    return (<div className="px-4 md:px-16 py-6">
         <h4 className="text-xs font-black text-gray-400 mb-5">{selectedEvent.title.toUpperCase()}</h4>
         <p className="text-title-orange font-extrabold text-xl mb-6">{isEditUser ? 'Modifier les informations' : 'Inscription'}</p>
         {(isShowList) && (
@@ -85,30 +85,34 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                     Personnes à inscrire
                 </p>
                 <div className="bg-list space-y-4">
-                    {participants.map((part) => {
-                        const isSubs = part.event_ids.includes(selectedEvent.id)
-                        const maybeUser = part as any
-                        const type = maybeUser?.invited ? 'user' : 'invite'
-                        const buttonText = isSubs ? 'DÉSINSCRIRE' : 'INSCRIRE'
-                        const buttonStyle = isSubs ? 'text-title-orange border-red-500' : 'text-blue-600 border-blue-600'
-                        const buttonClick = isSubs 
-                            ? () => removeParticipant({ eventId: selectedEvent.id, participant: part }) 
-                            : () => addParticipants({ eventId: selectedEvent.id, participants: [part], type: type })
-                        return (<div className="w-full flex items-center rounded-xl px-4 py-2">
+                {participants.map((part) => {
+                    const isSubs = part.event_ids.includes(selectedEvent.id)
+                    const maybeUser = part as any
+                    const type = maybeUser?.invited ? 'user' : 'invite'
+                    const buttonText = isSubs ? 'DÉSINSCRIRE' : 'INSCRIRE'
+                    const buttonStyle = isSubs ? 'text-title-orange border-red-500' : 'text-blue-600 border-blue-600'
+                    const buttonClick = isSubs 
+                        ? () => removeParticipant({ eventId: selectedEvent.id, participant: part }) 
+                        : () => addParticipants({ eventId: selectedEvent.id, participants: [part], type: type })
+                    return (<div className="w-full flex flex-col md:flex-row rounded-xl px-4 py-2">
+                        <div className="flex items-center">
                             <img className="mr-3" src="/avatar-default.svg" alt="Avatar" />
-                            <div className="flex flex-col leading-snug">
-                                <p className="relative flex font-extrabold">
-                                    <span>{part.first_name} {part.last_name}</span>
-                                    <img onClick={() => editUser({ user: part, type: type })} className="absolute -right-7 -top-0.5 px-2 py-2 cursor-pointer" src="/icon-edit.svg" alt="edit" />
+                            <div className="w-full flex flex-col leading-snug">
+                                <p className="w-full relative flex font-extrabold">
+                                    <p className="break-words max-w-[80%] md:max-w-none">{part.first_name} {part.last_name}</p>
+                                    <img onClick={() => editUser({ user: part, type: type })} className="absolute w-8 md:w-auto right-0 md:-right-7 -top-0.5 px-2 py-2 cursor-pointer" src="/icon-edit.svg" alt="edit" />
                                 </p>
                                 <p>{part?.children ? `${part.children} enfant(s)` : "Pas d'enfant(s)"}</p>
                             </div>
-                            <button onClick={buttonClick} className={`urbanist ${buttonStyle} ml-auto border-2 font-extrabold rounded-xl px-4 h-10`}>
+                        </div>
+                        <div className="flex items-center mt-2 md:mt-0 md:ml-auto">
+                            <button onClick={buttonClick} className={`urbanist ${buttonStyle} border-2 font-extrabold rounded-xl px-4 h-10`}>
                                 {buttonText}
                             </button>
                             {type === 'invite' && <img onClick={() => removeUser(isSubs, selectedEvent.id, part)} className="ml-4 cursor-pointer" src="/icon-trash.svg" alt="delete" />}
-                        </div>)
-                    })}
+                        </div>
+                    </div>)
+                })}
                 </div>
             </div>
         )}

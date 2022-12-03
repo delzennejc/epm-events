@@ -21,7 +21,7 @@ const Home: NextPage = () => {
     <div className="w-full h-full relative">
       <Layout>
         <div className="max-w-6xl flex flex-col w-full mb-24 -mt-36">
-          <p className="urbanist z-50 text-white font-black text-lg ml-32 mb-4">PROCHAINS ÉVÈNEMENTS</p>
+          <p className="urbanist z-50 text-white font-black text-lg ml-14 md:ml-32 mb-4">PROCHAINS ÉVÈNEMENTS</p>
           {eventList.length > 0 && <div className="w-5/6 self-center flex justify-center mb-10">
             <EventCard
               id={eventList[0][0].id}
@@ -35,10 +35,10 @@ const Home: NextPage = () => {
           </div>}
           {eventList.map((events, i) => {
             if (i === 0) return undefined
-            return (<div className="w-5/6 self-center grid grid-cols-2 gap-10 justify-center">
+            return (<div className="w-5/6 self-center grid grid-cols-1 md:grid-cols-2 gap-10 justify-center">
                 {events.map(event => (
                   <EventCard
-                    split={true}
+                    small={true}
                     id={event.id}
                     image={event.image}
                     title={event.title}

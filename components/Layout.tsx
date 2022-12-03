@@ -12,11 +12,11 @@ interface LayoutType {
 const Layout = ({ children, className = '' }: LayoutType) => {
     const router = useRouter()
     const isEventPage = router.pathname.includes('event')
-    const eventLayoutStyle = isEventPage ? 'h-24' : 'h-52'
+    const eventLayoutStyle = isEventPage ? 'h-24' : 'h-40 md:h-52'
 
     return (<>
         <div className={`relative z-10 flex flex-col items-center justify-center w-full h-full pb-14`}>
-            <div className={`luminous relative w-full ${eventLayoutStyle} flex justify-between mb-20 md:mb-5 px-6 md:px-16`}>
+            <div className={`luminous relative w-full ${eventLayoutStyle} flex justify-between mb-6 md:mb-5 px-6 md:px-16`}>
                 <img 
                     className="cursor-pointer" 
                     style={{ width: '263px', height: '73px' }} 

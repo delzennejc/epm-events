@@ -9,7 +9,7 @@ const ModalRegistrationDone = ({}: ModalRegistrationDoneType) => {
     if (!selectedEvent) {
         return null
     }
-    return (<div className="flex flex-col px-16 py-6">
+    return (<div className="flex flex-col px-8 md:px-16 py-6">
         <h4 className="text-xs font-black text-gray-400 mb-5">{selectedEvent.title.toUpperCase()}</h4>
         <div className="space-y-6">
             <img src="/emoji-success.svg" alt="Success" />

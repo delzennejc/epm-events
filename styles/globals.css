@@ -4,9 +4,12 @@
 
 html {
   background-color: #ffffff;
+  height: -webkit-fill-available;
 }
 
 body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
   padding: 0;
   margin: 0;
@@ -51,6 +54,10 @@ h1, p, span {
 
 .bg-list > div:nth-child(odd)  {
   background: #FCF9FA;
+}
+
+.mobile-lock {
+  max-height: 100vh;
 }
 
 .image-shadow {

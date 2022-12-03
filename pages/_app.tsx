@@ -98,9 +98,6 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   useDisableBodyScroll(isModalOpen)
   
   const customStyles: any = {
-    portal: {
-      paddingBottom: '100px'
-    },
     content: {
       position: 'relative',
       display: "block",
@@ -117,7 +114,7 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
       WebkitOverflowScrolling: 'touch',
       zIndex: 40,
       background: "#FFFFFF",
-      marginBottom: "100px",
+      marginBottom: "300px",
     },
     overlay: {
       background: "linear-gradient(93.67deg, rgba(124, 52, 74, 0.5) -4.76%, rgba(137, 61, 58, 0.5) 51.75%, rgba(140, 87, 58, 0.5) 108.25%)",
@@ -132,7 +129,7 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   const isRegistered = selectedEvent ? user.event_ids.includes(selectedEvent?.id) || user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), false) : false
 
   return (<>
-    <div className="flex flex-row w-full h-full min-h-screen">
+    <div className={`flex flex-row w-full h-full min-h-screen ${isModalOpen ? '' : ''}`}>
       <Component {...pageProps} />
     </div>
     <Modal 
