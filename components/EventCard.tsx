@@ -29,7 +29,7 @@ const EventCard = ({ id, image, title, time, address, station, link, small = fal
     const textStyle = split ? 'space-x-3 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const textStyle2 = split ? 'space-x-3.5 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const buttonStyle = split ? 'w-full text-center mt-5 mr-2' : 'md:ml-auto'
-    const isRegistered = user.event_ids.includes(id) || user.invited.reduce((curr, val) => val.event_ids.includes(id) || curr, false) as boolean
+    const isRegistered = user.event_ids.includes(id) || user.invited.reduce((curr, val) => val.event_ids.includes(id) || curr, false) as unknown
     const buttonAltStyle = isRegistered ? 'text-title-orange bg-white map-drop-shadow' : 'suggest text-white'
     return (
     <div 
