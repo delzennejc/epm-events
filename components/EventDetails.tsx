@@ -16,7 +16,8 @@ const EventDetails = ({}: EventDetailsType) => {
     if (!selectedEvent) {
         return null
     }
-    const isInviteRegs: boolean = user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), false)
+    const isRegInitialValue: boolean = false
+    const isInviteRegs = user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), isRegInitialValue)
     const isRegistered = user.event_ids.includes(selectedEvent?.id) || isInviteRegs
     const hasPlace = (selectedEvent?.participants?.length || 0) < selectedEvent?.max_size ?? true
     const buttonStyleAlt = isRegistered ? `text-title-orange bg-white map-drop-shadow` : 'suggest text-white'

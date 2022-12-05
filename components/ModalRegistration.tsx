@@ -94,7 +94,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                     const buttonClick = isSubs 
                         ? () => removeParticipant({ eventId: selectedEvent.id, participant: part }) 
                         : () => addParticipants({ eventId: selectedEvent.id, participants: [part], type: type })
-                    return (<div className="w-full flex flex-col md:flex-row rounded-xl px-4 py-2">
+                    return (<div key={part.id} className="w-full flex flex-col md:flex-row rounded-xl px-4 py-2">
                         <div className="flex items-center">
                             <img className="mr-3" src="/avatar-default.svg" alt="Avatar" />
                             <div className="w-full flex flex-col leading-snug">
@@ -158,7 +158,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                                 {values?.friends.map((friend, index) => (
                                     <>
                                         {index > 0 && <p className="w-full flex items-center align-middle text-title-orange font-extrabold text-xl pt-5 mb-6">
-                                            Inscription de l'invité {index}
+                                            Inscription de l&apos;invité {index}
                                             <span onClick={() => remove(index)} className="urbanist ml-auto text-xs cursor-pointer">SUPPRIMER</span>
                                         </p>}
                                         <div className="flex flex-col space-y-4">
@@ -188,7 +188,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                                             </label>
                                             {friend.isChildren && (
                                                 <div className="flex flex-col">
-                                                    <label className="text-gray-500 font-bold text-sm ml-2" htmlFor={`friends.${index}.children`}>Nombre d'enfants présent</label>
+                                                    <label className="text-gray-500 font-bold text-sm ml-2" htmlFor={`friends.${index}.children`}>Nombre d&apos;enfants présent</label>
                                                     <Field className="self-start w-2/6 bg-input-orange h-11 rounded-lg pl-4" type="number" name={`friends.${index}.children`} />
                                                     <ErrorMessage className="text-tag-orange" component="span" name={`friends.${index}.children`} />
                                                 </div>

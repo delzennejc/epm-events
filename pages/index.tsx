@@ -35,9 +35,10 @@ const Home: NextPage = () => {
           </div>}
           {eventList.map((events, i) => {
             if (i === 0) return undefined
-            return (<div className="w-5/6 self-center grid grid-cols-1 md:grid-cols-2 gap-10 justify-center">
+            return (<div key={i} className="w-5/6 self-center grid grid-cols-1 md:grid-cols-2 gap-10 justify-center">
                 {events.map(event => (
                   <EventCard
+                    key={event.id}
                     small={true}
                     id={event.id}
                     image={event.image}

@@ -66,7 +66,7 @@ const ModalUnregistration = ({}: ModalUnregistrationType) => {
                     const buttonClick = isSubs 
                         ? () => removeParticipant({ eventId: selectedEvent.id, participant: part }) 
                         : () => addParticipants({ eventId: selectedEvent.id, participants: [part], type: type })
-                    return (<div className="w-full flex flex-col md:flex-row rounded-xl px-4 py-2">
+                    return (<div key={part.id} className="w-full flex flex-col md:flex-row rounded-xl px-4 py-2">
                         <div className="flex items-center">
                             <img className="mr-3" src="/avatar-default.svg" alt="Avatar" />
                             <div className="w-full flex flex-col leading-snug">

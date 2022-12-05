@@ -7,7 +7,6 @@ import { configResponsive, useResponsive } from 'ahooks';
 import { StoreProvider, useStoreRehydrated } from 'easy-peasy';
 import { config as fontAwesomeConfig } from "@fortawesome/fontawesome-svg-core";
 import Modal from 'react-modal';
-import ImageViewer from "react-simple-image-viewer";
 import { ToastContainer } from 'react-toastify';
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "tailwindcss/tailwind.css";
@@ -126,7 +125,10 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
 
   if (!rehydrated) return null
 
-  const isRegistered = selectedEvent ? user.event_ids.includes(selectedEvent?.id) || user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), false) : false
+  const isRegInitialValue: boolean = false
+  const isFalse: boolean = false
+  const isInviteRegs = user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), isRegInitialValue)
+  const isRegistered = selectedEvent ? user.event_ids.includes(selectedEvent?.id) || isInviteRegs : isFalse
 
   return (<>
     <div className={`flex flex-row w-full h-full min-h-screen ${isModalOpen ? '' : ''}`}>
