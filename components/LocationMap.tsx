@@ -8,10 +8,10 @@ interface LocationMapType {
 const LocationMap = ({ address }: LocationMapType) => {
     const location = encodeURI(address)
     const startSrc = 'https://maps.googleapis.com/maps/api/staticmap?center'
-    const src = `${startSrc}=${location}&zoom=17&size=800x220&markers=size:mid%7Ccolor:red%7C${location}&key=${apiKey}`
+    const src = `${startSrc}=${location}&zoom=17&size=640x200&markers=size:mid%7Ccolor:red%7C${location}&key=${apiKey}`
     return (
-        <div className="map-drop-shadow inline-flex self-start overflow-hidden rounded-2xl">
-            <img src={src} alt="location" />
+        <div className="w-full flex map-drop-shadow self-start overflow-hidden rounded-2xl">
+            <img className="w-full" src={src} alt="location" />
         </div>
     )
 }

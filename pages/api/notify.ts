@@ -27,7 +27,7 @@ const sendEmails = async (req: SendEmails[]) => {
         console.log(req, baseUrl, sendInBlueKey)
         const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
             templateId: 1,
-            sender:{ email: "prattjames4@gmail.com", name: "Event EPM" },
+            sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
             messageVersions: req.map((invite) => ({
                 to:[{
                     email: invite.email,
@@ -46,7 +46,7 @@ const sendEmails = async (req: SendEmails[]) => {
         })
         const adminSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
             templateId: 2,
-            sender:{ email: "prattjames4@gmail.com", name: "Event EPM"},
+            sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM"},
             messageVersions: [{
                 to:[{
                     email: 'prattjames4@gmail.com',
