@@ -26,7 +26,7 @@ const sendEmails = async (req: SendEmails[]) => {
     try {
         const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
             templateId: 1,
-            sender:{ email: "prattjames4@gmail.com", name: "Event EPM"},
+            sender:{ email: "prattjames4@gmail.com", name: "Event EPM" },
             messageVersions: req.map((invite) => ({
                 to:[{
                     email: invite.email,
