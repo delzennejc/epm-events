@@ -5,6 +5,7 @@ import { supabaseClient } from "../../utils/supabaseClient"
 import { string } from "yup";
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const sendInBlueKey = process.env.SEND_IN_BLUE_KEY;
 
 export interface SendEmails {
     id: string;
@@ -19,7 +20,7 @@ export interface SendEmails {
 }
 
 /* SENDINBLUE SDK */
-APIEmail.ApiClient.instance.authentications['api-key'].apiKey = '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';
+APIEmail.ApiClient.instance.authentications['api-key'].apiKey = sendInBlueKey
 
 const sendEmails = async (req: SendEmails[]) => {
     try {
