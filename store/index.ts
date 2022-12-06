@@ -6,8 +6,12 @@ import _ from 'lodash'
 
 import { supabaseClient } from '../utils/supabaseClient';
 import { addMonths, isAfter, format, compareDesc, endOfISOWeek, startOfISOWeek, subDays, addDays } from 'date-fns'
-import { sortDate } from '../utils/utils';
+import { frenchDate, sortDate } from '../utils/utils';
 import { getDates } from '../utils/timeSince';
+import { SendEmails } from '../pages/api/notify';
+import { sendEmail } from '../utils/sendEmails';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const storeModelData = {
     data: {
@@ -213,6 +217,7 @@ export const storeModelData = {
         try {
             const state = store.getStoreState()
             const selectedEvent = _.flatten(state.data.events).find(val => val.id === payload.eventId)
+            if (!selectedEvent) return
             const participants = selectedEvent?.participants || []
             const newEvent = {
                 ...selectedEvent,
@@ -228,7 +233,20 @@ export const storeModelData = {
                 .select()
                 .maybeSingle()
             actions.addEventToUser(payload)
+            const invites = payload.participants.map<SendEmails>((part) => ({
+                id: selectedEvent.id,
+                name: `${part.first_name} ${part.last_name}`,
+                email: part.email,
+                phone: part.phone,
+                children: part.children,
+                title: selectedEvent.title,
+                date: frenchDate(selectedEvent.date),
+                address: selectedEvent.address,
+                metro: selectedEvent.station,
+                link: `${baseUrl}/event/${selectedEvent.id}`,
+            }))
             actions.getEvents()
+            const emailSent = await sendEmail(invites)
         } catch (e) {
             console.error(e)
             actions.changeLoading(false)

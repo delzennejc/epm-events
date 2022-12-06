@@ -5,6 +5,7 @@ import { fr } from 'date-fns/locale'
 import { addDays, subDays, format } from 'date-fns';
 import { EventType, UserType } from "../store/store.model";
 import LocationMap from "./LocationMap";
+import { frenchDate } from "../utils/utils";
 
 interface EventDetailsType {}
 
@@ -76,7 +77,7 @@ const EventDetails = ({}: EventDetailsType) => {
                             <img className="mt-0.5" src="/icon-round-time.svg" alt="Date" />
                             <p className="flex flex-col leading-tight">
                                 <span className="font-semibold text-gray-400">Date</span>
-                                <span className="font-bold">{format(new Date(selectedEvent.date), "EEE dd MMMM yyyy, H'h'mm", { locale: fr })}</span>
+                                <span className="font-bold">{frenchDate(selectedEvent.date)}</span>
                             </p>
                         </div>
                         <div className="flex space-x-3 justify-start items-start">

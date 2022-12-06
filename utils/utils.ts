@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import { format, compareDesc, add, formatRelative } from 'date-fns'
 import { supabaseClient } from './supabaseClient'
-import enGB from 'date-fns/locale/en-GB';
+import { fr, enGB } from 'date-fns/locale'
 import psl from 'psl'
 
 const formatRelativeLocale: { [key: string]: string } = {
@@ -142,6 +142,9 @@ export function extractRootDomain(url): string {
     catch(e) { return e; }
   };
 
+  export const frenchDate = (date: Date) => {
+    return format(new Date(date), "EEE dd MMMM yyyy, H'h'mm", { locale: fr })
+  }
 
   export const asyncImageMap = async (arr: any[], id: string) => {
     const promises = arr.map(async (obj) => {
