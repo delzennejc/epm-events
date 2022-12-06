@@ -50,6 +50,7 @@ const sendEmails = async (req: SendEmails[]) => {
             messageVersions: [{
                 to:[{
                     email: 'coordinationepm.republique@gmail.com',
+                    // email: 'prattjames4@gmail.com',
                     name: 'Event EPM',
                 }],
                 params: {

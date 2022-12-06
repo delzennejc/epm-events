@@ -99,7 +99,7 @@ const EventDetails = ({}: EventDetailsType) => {
                             <p className="flex flex-col leading-tight">
                                 <span className="font-semibold text-gray-400">Places restantes</span>
                                 <span>
-                                    <span className="font-bold">{selectedEvent.participants ? `${selectedEvent.participants.length}/` : `0/`}</span><span>{selectedEvent.max_size}</span>
+                                    <span className="font-bold">{selectedEvent.participants ? `${selectedEvent.max_size - selectedEvent.participants.length}/` : `0/`}</span><span>{selectedEvent.max_size}</span>
                                 </span>
                             </p>
                         </div>
