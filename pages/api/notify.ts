@@ -24,6 +24,7 @@ APIEmail.ApiClient.instance.authentications['api-key'].apiKey = sendInBlueKey
 
 const sendEmails = async (req: SendEmails[]) => {
     try {
+        console.log(req, baseUrl, sendInBlueKey)
         const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
             templateId: 1,
             sender:{ email: "prattjames4@gmail.com", name: "Event EPM" },
@@ -59,7 +60,7 @@ const sendEmails = async (req: SendEmails[]) => {
         })
         return 'sent'
     } catch (e) {
-        console.log("error", e)
+        console.error("error", e)
     }
     return null
   }
