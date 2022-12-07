@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   return (
     <>
     <div className="w-full h-full relative">
-      <Layout className="justify-between px-5 md:px-8 md:pt-1">
+      <Layout className="justify-between md:px-8 md:pt-1">
         <div className="w-full">
           <EventDetails />
         </div>

@@ -266,4 +266,8 @@ h3 {
     display: flex;
     flex-direction: column;
   }
+  .descript-container {
+    background: #FBFAFA;
+    margin-top: -50px !important;
+  }
 }

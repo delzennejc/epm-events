@@ -22,30 +22,31 @@ export interface SendEmails {
 /* SENDINBLUE SDK */
 APIEmail.ApiClient.instance.authentications['api-key'].apiKey = sendInBlueKey
 
-const sendEmails = async (req: SendEmails[]) => {
+const sendEmails = async (req: SendEmails[], isSub: boolean = true) => {
     try {
-        console.log(req, baseUrl, sendInBlueKey)
-        const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
-            templateId: 1,
-            sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
-            messageVersions: req.map((invite) => ({
-                to:[{
-                    email: invite.email,
-                    name: invite.name,
-                }],
-                params: {
-                    name: invite.name,
-                    children: invite.children,
-                    title: invite.title,
-                    date: invite.date,
-                    address: invite.address,
-                    metro: invite.metro,
-                    link: invite.link,
-                }
-            }))
-        })
+        if (isSub) {
+            const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
+                templateId: 1,
+                sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
+                messageVersions: req.map((invite) => ({
+                    to:[{
+                        email: invite.email,
+                        name: invite.name,
+                    }],
+                    params: {
+                        name: invite.name,
+                        children: invite.children,
+                        title: invite.title,
+                        date: invite.date,
+                        address: invite.address,
+                        metro: invite.metro,
+                        link: invite.link,
+                    }
+                }))
+            })
+        }
         const adminSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
-            templateId: 2,
+            templateId: isSub ? 2 : 3,
             sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM"},
             messageVersions: [{
                 to:[{
@@ -71,7 +72,7 @@ export default async function handler(
     res: NextApiResponse<any>
   ) {
     if (req.method === 'POST') {
-        const sent = await sendEmails(req.body)
+        const sent = await sendEmails(req.body.invites, req.body.isSub)
         res.status(200).json({})
     }
 }

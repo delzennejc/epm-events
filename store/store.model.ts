@@ -117,11 +117,13 @@ export interface StoreDataType {
         addParticipantSuccess: boolean;
         isEditUser: boolean;
         isAddInvite: boolean;
+        themeColor: string;
     };
 }
 
 export interface StoreActionType {
     changeLoading: Action<StoreType, boolean>;
+    changeThemeColor: Action<StoreType, string>;
     initializeStore: Thunk<StoreActionType, void, any, StoreType>;
     changeIsMobile: Action<StoreType, boolean>;
     changeModalOpen: Action<StoreType, ChangeModalOpenType>;

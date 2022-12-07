@@ -23,8 +23,8 @@ const AppHead = () => {
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
             <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500;600;700;800;900&family=Urbanist:wght@800;900&display=swap" rel="stylesheet" />
-
             <link rel="icon" href="/favicon.ico" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
             {isNotDevelopment && (
             <>
                 {/* Global Site Tag (gtag.js) - Google Analytics */}

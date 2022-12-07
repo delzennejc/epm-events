@@ -13,7 +13,9 @@ const EventDetails = ({}: EventDetailsType) => {
     const router = useRouter()
     const user: UserType = useAppState(state => state.data.user)
     const selectedEvent: EventType = useAppState(state => state.data.selectedEvent)
+    const isMobile = useAppState(state => state.data.ui.isMobile)
     const changeModalOpen = useAppActions(actions => actions.changeModalOpen)
+    const changeThemeColor = useAppActions(actions => actions.changeThemeColor)
     if (!selectedEvent) {
         return null
     }
@@ -25,11 +27,13 @@ const EventDetails = ({}: EventDetailsType) => {
     const buttonStyle = !hasPlace ? 'bg-gray-300 text-gray-500' : buttonStyleAlt
     const buttonTextAlt = isRegistered ? "SE DÉSINSCRIRE" : "JE M'INSCRIS"
     const buttonText = !hasPlace ? "COMPLET" : buttonTextAlt
-    return (<div className="flex flex-col items-center space-y-8">
+    const placeLeft = selectedEvent.participants ? selectedEvent.max_size - selectedEvent.participants.length : selectedEvent.max_size
+    const places = placeLeft < 6 ? `reste ${placeLeft} place(s)` : null
+    return (<div className={`relative flex flex-col items-center space-y-8`}>
         <div className="relative w-full flex flex-col">
-            <div className={`relative w-full z-10 rounded-3xl overflow-hidden`}>
+            <div className={`relative w-full z-10 md:rounded-3xl overflow-hidden`}>
                 <div 
-                    className={`w-full h-52 md:h-72 rounded-3xl z-10`}
+                    className={`w-full h-72 md:rounded-3xl z-10`}
                     style={{
                         backgroundImage: `url(${selectedEvent.image})`,
                         backgroundSize: "cover",
@@ -37,7 +41,7 @@ const EventDetails = ({}: EventDetailsType) => {
                 >
                 </div>
                 <div 
-                    className={`absolute filter-difference opacity-25 top-0 w-full h-52 md:h-72 rounded-3xl z-20`}
+                    className={`absolute filter-difference opacity-25 top-0 w-full :h-72 md:rounded-3xl z-20`}
                     style={{
                         backgroundImage: `url(${selectedEvent.image})`,
                         backgroundSize: "cover",
@@ -45,15 +49,15 @@ const EventDetails = ({}: EventDetailsType) => {
                 >
                 </div>
             </div>
-            <div className="image-shadow self-center z-0"></div>
+            {!isMobile && <div className="image-shadow self-center z-0"></div>}
             <div onClick={() => router.back()} className="absolute z-30 top-4 left-5 md:left-32 flex items-center justify-center w-10 h-10 bg-gray-800 bg-opacity-30 rounded-full pt-1 pr-1 cursor-pointer">
                 <img className="h-7" src="/icon-back-button.svg" alt="back-button" />
             </div>
-            <p className={`title-shadow absolute z-30 bottom-8 left-5 md:left-32 md:w-4/6 text-2xl md:text-4xl text-white font-black leading-snug`}>
+            <p className={`title-shadow absolute z-30 bottom-16 md:bottom-8 left-5 md:left-32 md:w-4/6 text-2xl md:text-4xl text-white font-black leading-snug`}>
                {selectedEvent.title.toUpperCase()}
             </p>
         </div>
-        <div className="flex flex-col md:flex-row w-full md:w-10/12 md:space-x-10">
+        <div className="descript-container relative z-50 flex flex-col md:flex-row w-full md:w-10/12 md:space-x-10 p-5 md:p-0 rounded-t-3xl md:rounded-none">
             <div className="flex flex-col md:w-4/6 space-y-5 mb-12 md:mb-0">
                 <div className="flex flex-col space-y-2">
                     <p className="text-title-orange font-extrabold text-lg">Description</p>
@@ -61,7 +65,7 @@ const EventDetails = ({}: EventDetailsType) => {
                 </div>
                 <div className="inline-flex flex-col space-y-3">
                     <p className="text-title-orange font-extrabold text-lg">Localisation</p>
-                    <LocationMap address={selectedEvent.address} />
+                    <LocationMap isMobile={isMobile} address={selectedEvent.address} />
                 </div>
             </div>
             <div className="flex flex-col md:w-3/12">
@@ -97,9 +101,9 @@ const EventDetails = ({}: EventDetailsType) => {
                         <div className="flex space-x-3 justify-start items-start">
                             <img className="mt-0.5" src="/icon-round-people.svg" alt="People" />
                             <p className="flex flex-col leading-tight">
-                                <span className="font-semibold text-gray-400">Places restantes</span>
+                                <span className="font-semibold text-gray-400">Nombre d'inscrits</span>
                                 <span>
-                                    <span className="font-bold">{selectedEvent.participants ? `${selectedEvent.max_size - selectedEvent.participants.length}/` : `0/`}</span><span>{selectedEvent.max_size}</span>
+                                    <span className="font-bold">{selectedEvent.participants ? `${selectedEvent.participants.length}` : `0`}</span>{places ? <span className="text-sm text-title-orange ml-1">{places}</span> : null}
                                 </span>
                             </p>
                         </div>

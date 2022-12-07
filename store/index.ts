@@ -22,6 +22,7 @@ export const storeModelData = {
             isMobile: false,
             isEditUser: false,
             isAddInvite: false,
+            themeColor: '#ffffff',
         },
         selectedEvent: null,
         selectedUser: null,
@@ -39,6 +40,9 @@ export const storeModelData = {
     },
     changeLoading: action<StoreType, boolean>((state, payload) => {
         state.data.ui.loading = payload
+    }),
+    changeThemeColor: action<StoreType, string>((state, payload) => {
+        state.data.ui.themeColor = payload
     }),
     addEventToUser: action<StoreType, AddParticipantsType>((state, payload) => {
         if (payload.type) {
@@ -296,6 +300,7 @@ export const storeModelData = {
         try {
             const state = store.getStoreState()
             const selectedEvent = _.flatten(state.data.events).find(val => val.id === payload.eventId)
+            if (!selectedEvent) return
             const participants = selectedEvent?.participants || []
             const newEvent = {
                 ...selectedEvent,
@@ -308,8 +313,20 @@ export const storeModelData = {
                 .select()
                 .maybeSingle()
             actions.removeEventToUser(payload)
-            console.log('Events: ', eventUpdated)
+            const invites = [payload.participant].map<SendEmails>((part) => ({
+                id: selectedEvent.id,
+                name: `${part.first_name} ${part.last_name}`,
+                email: part.email,
+                phone: part.phone,
+                children: part.children,
+                title: selectedEvent.title,
+                date: frenchDate(selectedEvent.date),
+                address: selectedEvent.address,
+                metro: selectedEvent.station,
+                link: `${baseUrl}/event/${selectedEvent.id}`,
+            }))
             actions.getEvents()
+            const emailSent = await sendEmail(invites, false)
         } catch (e) {
             console.error(e)
             actions.changeLoading(false)
