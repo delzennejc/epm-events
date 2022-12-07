@@ -29,6 +29,7 @@ const EventDetails = ({}: EventDetailsType) => {
     const buttonText = !hasPlace ? "COMPLET" : buttonTextAlt
     const placeLeft = selectedEvent.participants ? selectedEvent.max_size - selectedEvent.participants.length : selectedEvent.max_size
     const places = placeLeft < 6 ? `reste ${placeLeft} place(s)` : null
+    const nbParticipants = selectedEvent.participants.length + selectedEvent.participants?.reduce((curr, part) => curr + part.children, 0) || 0
     return (<div className={`relative flex flex-col items-center space-y-8`}>
         <div className="relative w-full flex flex-col">
             <div className={`relative w-full z-10 md:rounded-3xl overflow-hidden`}>
@@ -103,7 +104,7 @@ const EventDetails = ({}: EventDetailsType) => {
                             <p className="flex flex-col leading-tight">
                                 <span className="font-semibold text-gray-400">Nombre d'inscrits</span>
                                 <span>
-                                    <span className="font-bold">{selectedEvent.participants ? `${selectedEvent.participants.length}` : `0`}</span>{places ? <span className="text-sm text-title-orange ml-1">{places}</span> : null}
+                                    <span className="font-bold">{selectedEvent.participants ? `${nbParticipants}` : `0`}</span>{places ? <span className="text-sm text-title-orange ml-1">{places}</span> : null}
                                 </span>
                             </p>
                         </div>
