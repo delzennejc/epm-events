@@ -102,7 +102,7 @@ const EventDetails = ({}: EventDetailsType) => {
                         <div className="flex space-x-3 justify-start items-start">
                             <img className="mt-0.5" src="/icon-round-people.svg" alt="People" />
                             <p className="flex flex-col leading-tight">
-                                <span className="font-semibold text-gray-400">Nombre d'inscrits</span>
+                                <span className="font-semibold text-gray-400">Nombre d&apos;inscrits</span>
                                 <span>
                                     <span className="font-bold">{selectedEvent.participants ? `${nbParticipants}` : `0`}</span>{places ? <span className="text-sm text-title-orange ml-1">{places}</span> : null}
                                 </span>
