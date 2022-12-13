@@ -51,7 +51,7 @@ const EventDetails = ({}: EventDetailsType) => {
                 </div>
             </div>
             {!isMobile && <div className="image-shadow self-center z-0"></div>}
-            <div onClick={() => router.back()} className="absolute z-30 top-4 left-5 md:left-32 flex items-center justify-center w-10 h-10 bg-gray-800 bg-opacity-30 rounded-full pt-1 pr-1 cursor-pointer">
+            <div onClick={() => router.push('/')} className="absolute z-30 top-4 left-5 md:left-32 flex items-center justify-center w-10 h-10 bg-gray-800 bg-opacity-30 rounded-full pt-1 pr-1 cursor-pointer">
                 <img className="h-7" src="/icon-back-button.svg" alt="back-button" />
             </div>
             <p className={`title-shadow absolute z-30 bottom-16 md:bottom-8 left-5 md:left-32 md:w-4/6 text-2xl md:text-4xl text-white font-black leading-snug`}>
