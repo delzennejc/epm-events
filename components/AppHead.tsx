@@ -6,19 +6,23 @@ import { useAppState } from "../store";
 
 const isNotDevelopment = (process.env.NODE_ENV !== "development") && (typeof window !== 'undefined');
 
-const AppHead = () => {
-    const selectedEvent: EventType = useAppState((state) => state.data.selectedEvent)
-    const title = selectedEvent?.id ? `${selectedEvent?.title}` : "Eglise Paris Metropole - Évènements"
-    const image = selectedEvent?.id ? selectedEvent.image : '/logo.png'
+interface AppHead {
+    title?: string;
+    image?: string;
+}
+
+const AppHead = ({ title, image }: AppHead) => {
+    const titleStr = title ? title : "Eglise Paris Metropole - Évènements"
+    const imageStr = image ? image : '/logo.png'
     return (
         <Head>
-            <title>{title}</title>
+            <title>{titleStr}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"></meta>
             {/* <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"></meta> */}
-            <meta name="description" content={title} />
-            <meta property="og:title" content={title} />
+            <meta name="description" content={titleStr} />
+            <meta property="og:title" content={titleStr} />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content={image} />
+            <meta property="og:image" content={imageStr} />
             <meta property="og:description" content="Participés à des évènements que l'église organise." />
             <meta name="google-site-verification" content="t0DrQCo_DhHZsABPrynvdryLPkSjSowC_JQw6j3Tp_M" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -22,6 +22,7 @@ import { EventListType, EventType, UserType } from '../store/store.model';
 import ModalRegistration from '../components/ModalRegistration';
 import ModalRegistrationDone from '../components/ModalRegistrationDone';
 import ModalUnregistration from '../components/ModalUnregistration';
+import { supabaseClient } from '../utils/supabaseClient';
 
 interface MyAppProps {
   Component: () => ReactElement;
@@ -181,12 +182,27 @@ class MyApp extends App<MyAppProps, any, MyAppState> {
     return (
       <StoreProvider store={store}>
         <>
-          <AppHead />
+          <AppHead {...this.props?.pageProps} />
           <MyAppBody {...params} />
           <ToastContainer toastClassName="rounded-full" bodyClassName="rounded-full" />
         </>
       </StoreProvider>
     )
+  }
+}
+
+MyApp.getInitialProps = async (ctx: any): Promise<any> => {
+  const id = ctx.ctx.query?.eventId
+  const { data:event } = await supabaseClient
+    .from('events')
+    .select()
+    .eq('id', id)
+    .maybeSingle()
+  return {
+    pageProps: {
+      title: event?.title,
+      image: event?.image
+    },
   }
 }
 
