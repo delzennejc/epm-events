@@ -22,7 +22,7 @@ const AppHead = ({ title, image }: AppHead) => {
             <meta name="description" content={titleStr} />
             <meta property="og:title" content={titleStr} />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content={imageStr} />
+            <meta property="og:image" itemprop="image" content={imageStr} />
             <meta property="og:description" content="Participés à des évènements que l'église organise." />
             <meta name="google-site-verification" content="t0DrQCo_DhHZsABPrynvdryLPkSjSowC_JQw6j3Tp_M" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
