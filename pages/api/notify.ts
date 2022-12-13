@@ -49,11 +49,16 @@ const sendEmails = async (req: SendEmails[], isSub: boolean = true) => {
             templateId: isSub ? 2 : 3,
             sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM"},
             messageVersions: [{
-                to:[{
-                    email: 'coordinationepm.republique@gmail.com',
-                    // email: 'prattjames4@gmail.com',
-                    name: 'Event EPM',
-                }],
+                to: [
+                    {
+                        email: 'coordinationepm.republique@gmail.com',
+                        name: 'Event EPM',
+                    },
+                    // {
+                    //     email: 'prattjames4@gmail.com',
+                    //     name: 'Event EPM',
+                    // },
+                ],
                 params: {
                     invites: req,
                     title: req[0].title,

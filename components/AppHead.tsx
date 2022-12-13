@@ -8,7 +8,8 @@ const isNotDevelopment = (process.env.NODE_ENV !== "development") && (typeof win
 
 const AppHead = () => {
     const selectedEvent: EventType = useAppState((state) => state.data.selectedEvent)
-    const title = selectedEvent?.id ? `${selectedEvent?.title} - EPM Event` : "Eglise Paris Metropole - Évènements"
+    const title = selectedEvent?.id ? `${selectedEvent?.title}` : "Eglise Paris Metropole - Évènements"
+    const image = selectedEvent?.id ? selectedEvent.image : '/logo.png'
     return (
         <Head>
             <title>{title}</title>
@@ -17,7 +18,7 @@ const AppHead = () => {
             <meta name="description" content={title} />
             <meta property="og:title" content={title} />
             <meta property="og:type" content="website" />
-            <meta property="og:image" content="https://www.builda.dev/logo.png" />
+            <meta property="og:image" content={image} />
             <meta property="og:description" content="Participés à des évènements que l'église organise." />
             <meta name="google-site-verification" content="t0DrQCo_DhHZsABPrynvdryLPkSjSowC_JQw6j3Tp_M" />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
