@@ -6,8 +6,8 @@ const Collapsible = ({ children }: any) => {
       setOPen(!open);
     };
     return (
-      <div className={`${open ? '' : 'h-7'} relative overflow-hidden cursor-pointer`} onClick={toggle}>
-        <span className="absolute ml-24 mt-0.5 font-bold text-title-orange">{open ? 'Fermer' : 'Voir'} inscrits</span>
+      <div className={`${open ? '' : 'h-7'} relative overflow-hidden`} >
+        <span className="absolute ml-60 mt-0.5 font-bold text-title-orange cursor-pointer" onClick={toggle}>{open ? 'Fermer' : 'Voir'} inscrits</span>
         {children}
       </div>
     );

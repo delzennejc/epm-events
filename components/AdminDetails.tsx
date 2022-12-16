@@ -5,7 +5,7 @@ import { fr } from 'date-fns/locale'
 import { addDays, subDays, format } from 'date-fns';
 import { useAppActions, useAppState } from "../store";
 import { useRouter } from "next/router";
-import { EventType, UserType } from "../store/store.model";
+import { EventType, InviteType, UserType } from "../store/store.model";
 import * as Yup from 'yup';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import Collapsible from "./Collapsible";
@@ -15,9 +15,19 @@ interface AdminDetailsType {
 
 const AdminDetails = ({ }: AdminDetailsType) => {
     const eventsStore: EventType[][] = useAppState(state => state.data.events)
+    const removeParticipant = useAppActions(actions => actions.removeParticipant)
     const events = _.flatten(eventsStore)
+    const onUnSubscribe = (eventId: string, part: InviteType) => {
+        if (confirm(`Est-ce que tu es sur de vouloir désinscrire: ${part.first_name} ${part.last_name}?`) == true) {
+            removeParticipant({ eventId, participant: part })
+          } else {
+            // alert('Non')
+          }
+    }
     return <div className="flex flex-col space-y-8">
-        {events.map((event) => (
+        {events.map((event) => {
+            const enfants = event?.participants?.reduce((curr, part) => curr + part.children, 0) || 0
+            return (
                 <div
                     key={event.id}
                     className={`card-drop-shadow w-11/12 md:w-5/6 self-center flex flex-col bg-white rounded-2xl px-5 md:px-10 py-10`}
@@ -28,7 +38,7 @@ const AdminDetails = ({ }: AdminDetailsType) => {
                     <Collapsible>
                         <div className="">
                             <p className="font-bold text-lg mb-3">
-                                {event?.participants ? event.participants.length : '0'} inscrits
+                                {event?.participants ? event.participants.length : '0'} inscrits, avec {enfants} enfant(s)
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                                 {event.participants.map((part) => (
@@ -38,6 +48,9 @@ const AdminDetails = ({ }: AdminDetailsType) => {
                                             <p className="font-bold text-sm">{part.first_name} {part.last_name}</p>
                                             <p className="text-sm">{part.email}</p>
                                             <p className="text-sm">{part.phone} {part.children ? `${part.children} enfant(s)` : 'sans enfant'}</p>
+                                            <button onClick={() => onUnSubscribe(event.id, part)} className={`urbanist border-2 font-extrabold rounded-xl px-4 h-8 text-sm text-gray-400 mt-2`}>
+                                                DÉSINSCRIRE
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
@@ -45,7 +58,8 @@ const AdminDetails = ({ }: AdminDetailsType) => {
                         </div>
                     </Collapsible>
                 </div>
-        ))}
+            )}
+        )}
     </div>
 }
 
