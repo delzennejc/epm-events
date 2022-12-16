@@ -30,7 +30,9 @@ const AdminLogin = ({ }: AdminLoginType) => {
             <Formik
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
-                if (values.email === 'coordinationepm.republique@gmail.com' && values.password === 'epmcoordination') {
+                const emails = ['coordinationepm.republique@gmail.com', 'prattjames4@gmail.com']
+                const passwords = ['epmcoordination', 'test']
+                if (emails.includes(values.email) && passwords.includes(values.password)) {
                     changeIsAdmin(true)
                 }
             }}
