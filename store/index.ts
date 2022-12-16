@@ -23,6 +23,7 @@ export const storeModelData = {
             isEditUser: false,
             isAddInvite: false,
             themeColor: '#ffffff',
+            isAdmin: false,
         },
         selectedEvent: null,
         selectedUser: null,
@@ -161,6 +162,9 @@ export const storeModelData = {
     }),
     changeIsMobile: action<StoreType, boolean>((state, payload) => {
         state.data.ui.isMobile = payload
+    }),
+    changeIsAdmin: action<StoreType, boolean>((state, payload) => {
+        state.data.ui.isAdmin = payload
     }),
     changeSelectedEvent: action<StoreType, ChangeSelectedEventType>((state, { selectedEvent }) => {
         state.data.selectedEvent = selectedEvent

@@ -118,6 +118,7 @@ export interface StoreDataType {
         isEditUser: boolean;
         isAddInvite: boolean;
         themeColor: string;
+        isAdmin: boolean;
     };
 }
 
@@ -127,6 +128,7 @@ export interface StoreActionType {
     initializeStore: Thunk<StoreActionType, void, any, StoreType>;
     changeIsMobile: Action<StoreType, boolean>;
     changeModalOpen: Action<StoreType, ChangeModalOpenType>;
+    changeIsAdmin: Action<StoreType, boolean>;
     changeAddNewInvite: Action<StoreType, boolean>;
     changeSelectedEvent: Action<StoreType, ChangeSelectedEventType>;
     addEventToUser: Action<StoreType, AddParticipantsType>;

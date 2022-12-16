@@ -257,6 +257,10 @@ h3 {
   background: linear-gradient(90.28deg, #E45174 4.77%, #DB8B07 99.77%);
 }
 
+.bg-light-grey {
+  background-color: #FCF9FA;
+}
+
 @media (max-width: 768px) {
   html,
   body {
