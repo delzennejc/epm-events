@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { EventType, UserType } from "../store/store.model";
 import * as Yup from 'yup';
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
+import Collapsible from "./Collapsible";
 
 interface AdminDetailsType {
 }
@@ -17,29 +18,33 @@ const AdminDetails = ({ }: AdminDetailsType) => {
     const events = _.flatten(eventsStore)
     return <div className="flex flex-col space-y-8">
         {events.map((event) => (
-            <div
-                key={event.id}
-                className={`card-drop-shadow w-11/12 md:w-5/6 self-center flex flex-col bg-white rounded-2xl px-5 md:px-10 py-10`}
-            >
-                <p className="w-full flex items-center align-middle font-black text-2xl mb-6">
-                    {event.title}
-                </p>
-                <div className="">
-                    <p className="font-bold text-lg">{event?.participants ? event.participants.length : '0'} inscrits</p>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                        {event.participants.map((part) => (
-                            <div key={part.id} className="flex bg-light-grey p-3 rounded-md">
-                                <img className="w-12 inline-block self-start mr-2" src="/admin-avatar.svg" alt="avatar" />
-                                <div className="">
-                                    <p className="font-bold text-sm">{part.first_name} {part.last_name}</p>
-                                    <p className="text-sm">{part.email}</p>
-                                    <p className="text-sm">{part.phone} {part.children ? `${part.children} enfant(s)` : 'sans enfant'}</p>
-                                </div>
+                <div
+                    key={event.id}
+                    className={`card-drop-shadow w-11/12 md:w-5/6 self-center flex flex-col bg-white rounded-2xl px-5 md:px-10 py-10`}
+                >
+                    <p className="w-full flex items-center align-middle font-black text-2xl mb-6">
+                        {event.title}
+                    </p>
+                    <Collapsible>
+                        <div className="">
+                            <p className="font-bold text-lg mb-3">
+                                {event?.participants ? event.participants.length : '0'} inscrits
+                            </p>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                {event.participants.map((part) => (
+                                    <div key={part.id} className="flex bg-light-grey p-3 rounded-md">
+                                        <img className="w-12 inline-block self-start mr-2" src="/admin-avatar.svg" alt="avatar" />
+                                        <div className="">
+                                            <p className="font-bold text-sm">{part.first_name} {part.last_name}</p>
+                                            <p className="text-sm">{part.email}</p>
+                                            <p className="text-sm">{part.phone} {part.children ? `${part.children} enfant(s)` : 'sans enfant'}</p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    </Collapsible>
                 </div>
-            </div>
         ))}
     </div>
 }
