@@ -41,7 +41,7 @@ const AdminDetails = ({ }: AdminDetailsType) => {
                                 {event?.participants ? event.participants.length : '0'} inscrits, avec {enfants} enfant(s)
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                {event.participants.map((part) => (
+                                {event?.participants.map((part) => (
                                     <div key={part.id} className="flex bg-light-grey p-3 rounded-md">
                                         <img className="w-12 inline-block self-start mr-2" src="/admin-avatar.svg" alt="avatar" />
                                         <div className="">

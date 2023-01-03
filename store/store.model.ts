@@ -33,7 +33,9 @@ import { string } from 'yup';
     phone: string;
     children: number;
     isChildren: boolean;
+    extends: { label: string; checked: boolean }[];
     invited?: InviteType[];
+    event_ids?: string[];
  }
 
  /**
@@ -52,6 +54,7 @@ import { string } from 'yup';
     participants: InviteType[];
     tags: string;
     link: string;
+    extend_form: { label: string; checked: boolean }[];
     published_at: Date;
     created_at: Date;
 }
@@ -86,7 +89,7 @@ export interface DeleteUserType {
 }
 
 export interface EditUserType {
-    user: InviteType;
+    user: ParticipantsType;
     type: 'invite' | 'user';
 }
 

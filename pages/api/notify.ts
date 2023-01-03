@@ -17,6 +17,7 @@ export interface SendEmails {
     address: string;
     metro: string;
     link: string;
+    extends: { label: string; checked: string; }[];
 }
 
 /* SENDINBLUE SDK */
@@ -41,13 +42,14 @@ const sendEmails = async (req: SendEmails[], isSub: boolean = true) => {
                         address: invite.address,
                         metro: invite.metro,
                         link: invite.link,
+                        extends: invite.extends,
                     }
                 }))
             })
         }
         const adminSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
             templateId: isSub ? 2 : 3,
-            sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM"},
+            sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
             messageVersions: [{
                 to: [
                     {

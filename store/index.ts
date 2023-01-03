@@ -47,6 +47,7 @@ export const storeModelData = {
     }),
     addEventToUser: action<StoreType, AddParticipantsType>((state, payload) => {
         if (payload.type) {
+            state.data.ui.addParticipantSuccess = true
             if (payload.type === 'user') {
                 state.data.user.event_ids = [...state.data.user.event_ids, payload.eventId]
             } else {
@@ -64,7 +65,7 @@ export const storeModelData = {
             state.data.ui.addParticipantSuccess = true
             const user = state.data.user
             if (!user?.id) {
-                const newUser = _.omit(payload.participants[0], ['isChildren'])
+                const newUser = _.omit(payload.participants[0], ['isChildren', 'extends'])
                 state.data.user = {
                     ...state.data.user,
                     ...newUser,
@@ -75,7 +76,7 @@ export const storeModelData = {
                 payload.participants.forEach((val, i) => {
                     if (i > 0 || user?.id) {
                         let modified = false
-                        const invitee = _.omit(val, ['isChildren'])
+                        const invitee = _.omit(val, ['isChildren', 'extends'])
                         state.data.user.invited.map((inv) => {
                             if (inv.id === val.id) {
                                 modified = true
@@ -213,7 +214,7 @@ export const storeModelData = {
                 .from('events')
                 .select()
                 .not('date', 'is', null)
-                .order('date', { ascending: true })
+                .order('date', { ascending: false })
             console.log('Events: ', events)
             actions.addEvents(events as EventType[])
         } catch (e) {
@@ -251,6 +252,7 @@ export const storeModelData = {
                 date: frenchDate(selectedEvent.date),
                 address: selectedEvent.address,
                 metro: selectedEvent.station,
+                extends: part.extends.map((ex) => ({ label: ex.label, checked: ex.checked ? 'Oui' : 'Non' })),
                 link: `${baseUrl}/event/${selectedEvent.id}`,
             }))
             actions.getEvents()
@@ -265,7 +267,7 @@ export const storeModelData = {
             const state = store.getStoreState()
             const selectedEvent = state.data.selectedEvent
             if (!selectedEvent?.id) return
-            if (payload.user.event_ids.includes(selectedEvent.id)) {
+            if (payload.user?.event_ids?.includes(selectedEvent.id)) {
                 const participants = selectedEvent?.participants || []
                 const newEvent = {
                     ...selectedEvent,
@@ -278,6 +280,7 @@ export const storeModelData = {
                                 email: payload.user.email,
                                 phone: payload.user.phone,
                                 children: payload.user.children,
+                                extends: payload.user.extends,
                             })
                         }
                         return val
@@ -327,6 +330,7 @@ export const storeModelData = {
                 date: frenchDate(selectedEvent.date),
                 address: selectedEvent.address,
                 metro: selectedEvent.station,
+                extends: [],
                 link: `${baseUrl}/event/${selectedEvent.id}`,
             }))
             actions.getEvents()

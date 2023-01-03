@@ -19,6 +19,7 @@ const registrationSchema = Yup.object().shape({
             phone: Yup.string().trim().min(10, 'Téléphone doit contenir 10 chiffre').matches(/0[1-9]([0-9][0-9])+/, "Téléphone n'est pas un numéro").required('Requis'),
             isChildren: Yup.boolean(),
             children: Yup.number(),
+            extends: Yup.array().of(Yup.object().shape({ name: Yup.string(), checked: Yup.boolean() })),
         })
     )
 })
@@ -39,13 +40,14 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
         return null
     }
 
-    const friendDefault = { 
+    let friendDefault = { 
         last_name: '', 
         first_name: '', 
         email: '', 
         phone: '', 
         isChildren: false, 
         children: 0,
+        extends: selectedEvent.extend_form,
     }
     const isShowList = user?.last_name && !isEditUser && !isAddInvite
     const isShowForm = !user?.last_name || isEditUser || isAddInvite
@@ -53,6 +55,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
         ? [{
             ..._.omit(selectedUser?.user, ['invited']),
             isChildren: Boolean(selectedUser?.user?.children),
+            extends: selectedEvent.extend_form,
           }]
         : [
             { ...friendDefault },
@@ -93,7 +96,8 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                     const buttonStyle = isSubs ? 'text-title-orange border-red-500' : 'text-blue-600 border-blue-600'
                     const buttonClick = isSubs 
                         ? () => removeParticipant({ eventId: selectedEvent.id, participant: part }) 
-                        : () => addParticipants({ eventId: selectedEvent.id, participants: [part], type: type })
+                        : () => editUser({ user: part, type: type })
+                        // : () => addParticipants({ eventId: selectedEvent.id, participants: [part], type: type })
                     return (<div key={part.id} className="w-full flex flex-col md:flex-row rounded-xl px-4 py-2">
                         <div className="flex items-center">
                             <img className="mr-3" src="/avatar-default.svg" alt="Avatar" />
@@ -123,14 +127,20 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
                 if (isEditUser) {
-                    console.log('isEdit, ', values.friends[0])
-                    editParticipant({
-                        user: { 
-                            ...values.friends[0],
-                            children: values.friends[0].isChildren ? values.friends[0].children : 0,
-                        },
-                        type: selectedUser?.type,
+                    const isSubbed = selectedEvent?.participants.find((part) => {
+                        return part.id === selectedUser?.user.id
                     })
+                    if (isSubbed) {
+                        editParticipant({
+                            user: { 
+                                ...values.friends[0],
+                                children: values.friends[0].isChildren ? values.friends[0].children : 0,
+                            },
+                            type: selectedUser?.type,
+                        })
+                    } else {
+                        addParticipants({ participants: values.friends, eventId: selectedEvent.id, type: selectedUser?.type, })
+                    }
                     setSubmitting(false)
                 } else {
                     console.log('Create, ', values)
@@ -193,6 +203,17 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                                                     <ErrorMessage className="text-tag-orange" component="span" name={`friends.${index}.children`} />
                                                 </div>
                                             )}
+                                            {friend.extends.length > 0 && (<div className="flex items-center">
+                                                <div className="flex-1 flex-shrink border-b-2 border-gray-400 mr-2"></div>
+                                                <p className="inline-block">Choisissez vos options</p>
+                                                <div className="flex-1 flex-shrink border-b-2 border-gray-400 ml-2"></div>
+                                            </div>)}
+                                            {friend.extends.map((ext, y) => (
+                                                <label className="space-x-2">
+                                                    <Field type="checkbox" name={`friends.${index}.extends.${y}.checked`} />
+                                                    <span>{ext.label}</span>
+                                                </label>
+                                            ))}
                                         </div>
                                     </>
                                 ))}
