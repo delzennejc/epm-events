@@ -209,7 +209,7 @@ const ModalRegistration = ({}: ModalRegistrationType) => {
                                                 <div className="flex-1 flex-shrink border-b-2 border-gray-400 ml-2"></div>
                                             </div>)}
                                             {friend.extends.map((ext, y) => (
-                                                <label className="space-x-2">
+                                                <label key={ext.label} className="space-x-2">
                                                     <Field type="checkbox" name={`friends.${index}.extends.${y}.checked`} />
                                                     <span>{ext.label}</span>
                                                 </label>
