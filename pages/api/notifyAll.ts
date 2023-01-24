@@ -29,7 +29,7 @@ const sendEmails = async (event: EventType, isSub: boolean = true) => {
         if (isSub) {
             const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
                 templateId: 4,
-                sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
+                sender:{ email: "coordinationepm.republique@gmail.com", name: "Event EPM" },
                 // messageVersions: [{
                 //     to:[{
                 //         email: 'prattjames4@gmail.com',
@@ -58,10 +58,11 @@ const sendEmails = async (event: EventType, isSub: boolean = true) => {
                     }],
                     params: {
                         message: `
-                            Il est temps de quitter le théatre Déjazet. 
-                            Merci à vous de vous être porté volontaire pour nous aider
-                            dans ce déménagement. On se donne rendez-vous juste après le culte.
-                            À tout à l'heure.
+                            Bonsoir ${invite.first_name},
+                            Confirmez-vous votre présence pour le restaurant ce dimanche?
+                            C'est pour connaître le nombre total d'inscrits et le communiquer au restaurant.
+                            Vous avez juste besoin de répondre à ce mail.
+                            Très bonne soirée,
                         `,
                         name: `${invite.first_name} ${invite.last_name}`,
                         title: event.title,
@@ -87,7 +88,7 @@ export default async function handler(
       const { data:event } = await supabaseClient
               .from('events')
               .select()
-              .eq('id', 'e56735e6-ac0f-4dc7-8f9e-4f88080fd0ad')
+              .eq('id', '859f057d-f2d8-4f82-a12d-06ab27230a2b')
               .maybeSingle()
       const sent = await sendEmails(event)
       res.status(200).json({})

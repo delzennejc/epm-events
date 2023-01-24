@@ -28,7 +28,7 @@ const sendEmails = async (req: SendEmails[], isSub: boolean = true) => {
         if (isSub) {
             const userSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
                 templateId: 1,
-                sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
+                sender:{ email: "coordinationepm.republique@gmail.com", name: "Event EPM" },
                 messageVersions: req.map((invite) => ({
                     to:[{
                         email: invite.email,
@@ -49,7 +49,7 @@ const sendEmails = async (req: SendEmails[], isSub: boolean = true) => {
         }
         const adminSent = await new APIEmail.TransactionalEmailsApi().sendTransacEmail({
             templateId: isSub ? 2 : 3,
-            sender:{ email: "prattdelzennejc@gmail.com", name: "Event EPM" },
+            sender:{ email: "coordinationepm.republique@gmail.com", name: "Event EPM" },
             messageVersions: [{
                 to: [
                     {

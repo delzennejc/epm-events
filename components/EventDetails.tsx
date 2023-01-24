@@ -22,14 +22,14 @@ const EventDetails = ({}: EventDetailsType) => {
     const isRegInitialValue: boolean = false
     const isInviteRegs = user.invited.reduce((curr, val) => val.event_ids.includes(selectedEvent?.id), isRegInitialValue)
     const isRegistered = user.event_ids.includes(selectedEvent?.id) || isInviteRegs
-    const hasPlace = (selectedEvent?.participants?.length || 0) < selectedEvent?.max_size ?? true
+    const nbParticipants = selectedEvent.participants.length + selectedEvent.participants?.reduce((curr, part) => curr + part.children, 0) || 0
+    const placeLeft = nbParticipants ? selectedEvent.max_size - nbParticipants : selectedEvent.max_size
+    const places = placeLeft < 6 ? `reste ${placeLeft} place(s)` : null
+    const hasPlace = nbParticipants < selectedEvent?.max_size ?? true
     const buttonStyleAlt = isRegistered ? `text-title-orange bg-white map-drop-shadow` : 'suggest text-white'
     const buttonStyle = !hasPlace ? 'bg-gray-300 text-gray-500' : buttonStyleAlt
     const buttonTextAlt = isRegistered ? "SE DÉSINSCRIRE" : "JE M'INSCRIS"
     const buttonText = !hasPlace ? "COMPLET" : buttonTextAlt
-    const placeLeft = selectedEvent.participants ? selectedEvent.max_size - selectedEvent.participants.length : selectedEvent.max_size
-    const places = placeLeft < 6 ? `reste ${placeLeft} place(s)` : null
-    const nbParticipants = selectedEvent.participants.length + selectedEvent.participants?.reduce((curr, part) => curr + part.children, 0) || 0
     return (<div className={`relative flex flex-col items-center space-y-8`}>
         <div className="relative w-full flex flex-col">
             <div className={`relative w-full z-10 md:rounded-3xl overflow-hidden`}>
