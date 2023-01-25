@@ -23,6 +23,7 @@ import ModalRegistration from '../components/ModalRegistration';
 import ModalRegistrationDone from '../components/ModalRegistrationDone';
 import ModalUnregistration from '../components/ModalUnregistration';
 import { supabaseClient } from '../utils/supabaseClient';
+import ModalSendEmail from '../components/ModalSendEmail';
 
 interface MyAppProps {
   Component: () => ReactElement;
@@ -48,6 +49,7 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
   const isMobile: boolean = useAppState((state) => state.data.ui.isMobile)
   const isAddInvite: boolean = useAppState(state => state.data.ui.isAddInvite)
   const isEditUser: boolean = useAppState(state => state.data.ui.isEditUser)
+  const isSendEmail: boolean = useAppState(state => state.data.ui.isSendEmail)
   const selectedEvent: EventType = useAppState((state) => state.data.selectedEvent)
   const user: UserType = useAppState((state) => state.data.user)
   const addParticipantSuccess: boolean = useAppState((state) => state.data.ui.addParticipantSuccess)
@@ -149,8 +151,12 @@ const MyAppBody: React.FC<MyAppBodyProps> =  ({ Component, pageProps, hideNav })
         onClick={closeModal}
       />
       {addParticipantSuccess 
-        ? <ModalRegistrationDone />
-        : (isRegistered && !isEditUser && !isAddInvite) ? <ModalUnregistration /> : <ModalRegistration />
+        ? <ModalRegistrationDone isSendEmail={isSendEmail} />
+        : (isRegistered && !isEditUser && !isAddInvite) 
+          ? <ModalUnregistration /> 
+          : isSendEmail
+            ? <ModalSendEmail /> 
+            : <ModalRegistration />
       }
     </Modal>
   </>)

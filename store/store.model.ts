@@ -116,6 +116,7 @@ export interface StoreDataType {
     ui: {
         loading: boolean;
         isModalOpen: boolean;
+        isSendEmail: boolean;
         isMobile: boolean;
         addParticipantSuccess: boolean;
         isEditUser: boolean;
@@ -131,7 +132,9 @@ export interface StoreActionType {
     initializeStore: Thunk<StoreActionType, void, any, StoreType>;
     changeIsMobile: Action<StoreType, boolean>;
     changeModalOpen: Action<StoreType, ChangeModalOpenType>;
+    changeIsSendEmail: Action<StoreType, boolean>;
     changeIsAdmin: Action<StoreType, boolean>;
+    changeSuccess: Action<StoreType, void>;
     changeAddNewInvite: Action<StoreType, boolean>;
     changeSelectedEvent: Action<StoreType, ChangeSelectedEventType>;
     addEventToUser: Action<StoreType, AddParticipantsType>;
@@ -141,6 +144,7 @@ export interface StoreActionType {
     saveEditedUser: Action<StoreType, EditUserType>;
     addEvents: Action<StoreType, EventType[]>;
     getEvents: Thunk<StoreActionType, void, any, StoreType>;
+    sendEmail: Thunk<StoreActionType, string[], any, StoreType>;
     addParticipants: Thunk<StoreActionType, AddParticipantsType, any, StoreType>;
     editParticipant: Thunk<StoreActionType, EditUserType, any, StoreType>;
     removeParticipant: Thunk<StoreActionType, RemoveParticipantType, any, StoreType>;

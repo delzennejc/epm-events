@@ -9,7 +9,7 @@ import { addMonths, isAfter, format, compareDesc, endOfISOWeek, startOfISOWeek, 
 import { frenchDate, sortDate } from '../utils/utils';
 import { getDates } from '../utils/timeSince';
 import { SendEmails } from '../pages/api/notify';
-import { sendEmail } from '../utils/sendEmails';
+import { notifyParticipant, notifyAllParticipants } from '../utils/sendEmails';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -21,6 +21,7 @@ export const storeModelData = {
             addParticipantSuccess: false,
             isMobile: false,
             isEditUser: false,
+            isSendEmail: false,
             isAddInvite: false,
             themeColor: '#ffffff',
             isAdmin: false,
@@ -167,6 +168,12 @@ export const storeModelData = {
     changeIsAdmin: action<StoreType, boolean>((state, payload) => {
         state.data.ui.isAdmin = payload
     }),
+    changeSuccess: action<StoreType, void>((state, payload) => {
+        state.data.ui.addParticipantSuccess = true
+    }),
+    changeIsSendEmail: action<StoreType, boolean>((state, payload) => {
+        state.data.ui.isSendEmail = payload
+    }),
     changeSelectedEvent: action<StoreType, ChangeSelectedEventType>((state, { selectedEvent }) => {
         state.data.selectedEvent = selectedEvent
     }),
@@ -179,6 +186,7 @@ export const storeModelData = {
             state.data.ui.addParticipantSuccess = false
             state.data.ui.isEditUser = false
             state.data.ui.isAddInvite = false
+            state.data.ui.isSendEmail = false
             state.data.selectedUser = null
         }
     }),
@@ -187,6 +195,20 @@ export const storeModelData = {
             actions.changeLoading(true)
             await actions.getEvents()
             actions.changeLoading(false)
+        } catch (e) {
+            console.error(e)
+            actions.changeLoading(false)
+        }
+    }),
+    sendEmail: thunk<StoreActionType, string[], any, StoreType>(async (actions, payload, store) => {
+        try {
+            const state = store.getStoreState()
+            const eventId = state.data.selectedEvent?.id
+            const message = payload
+            if (eventId && message) {
+                await notifyAllParticipants(eventId, message)
+            }
+            actions.changeSuccess()
         } catch (e) {
             console.error(e)
             actions.changeLoading(false)
@@ -256,7 +278,7 @@ export const storeModelData = {
                 link: `${baseUrl}/event/${selectedEvent.id}`,
             }))
             actions.getEvents()
-            const emailSent = await sendEmail(invites)
+            const emailSent = await notifyParticipant(invites)
         } catch (e) {
             console.error(e)
             actions.changeLoading(false)
@@ -334,7 +356,7 @@ export const storeModelData = {
                 link: `${baseUrl}/event/${selectedEvent.id}`,
             }))
             actions.getEvents()
-            const emailSent = await sendEmail(invites, false)
+            const emailSent = await notifyParticipant(invites, false)
         } catch (e) {
             console.error(e)
             actions.changeLoading(false)

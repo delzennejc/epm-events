@@ -27,7 +27,7 @@ const AdminLogin = ({ }: AdminLoginType) => {
         <div 
             className={`card-drop-shadow w-5/6 md:w-1/2 self-center flex flex-col items-center bg-white rounded-2xl`}
         >
-            <Formik
+        <Formik
             initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
                 const emails = ['coordinationepm.republique@gmail.com', 'prattjames4@gmail.com']
