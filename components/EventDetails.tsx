@@ -25,11 +25,12 @@ const EventDetails = ({}: EventDetailsType) => {
     const nbParticipants = selectedEvent.participants.length + selectedEvent.participants?.reduce((curr, part) => curr + part.children, 0) || 0
     const placeLeft = nbParticipants ? selectedEvent.max_size - nbParticipants : selectedEvent.max_size
     const places = placeLeft < 6 ? `reste ${placeLeft} place(s)` : null
-    const hasPlace = (nbParticipants < selectedEvent?.max_size) && isAfter(new Date(selectedEvent.subscription_end), Date.now())
+    const hasPlace = (nbParticipants < selectedEvent?.max_size) ?? true
+    const isDone = !isAfter(new Date(selectedEvent.subscription_end), Date.now())
     const buttonStyleAlt = isRegistered ? `text-title-orange bg-white map-drop-shadow` : 'suggest text-white'
-    const buttonStyle = !hasPlace ? 'bg-gray-300 text-gray-500' : buttonStyleAlt
+    const buttonStyle = !hasPlace || isDone ? 'bg-gray-300 text-gray-500' : buttonStyleAlt
     const buttonTextAlt = isRegistered ? "SE DÉSINSCRIRE" : "JE M'INSCRIS"
-    const buttonText = !hasPlace ? "COMPLET" : buttonTextAlt
+    const buttonText = !isDone ? !hasPlace ? "COMPLET" : buttonTextAlt : "TERMINÉ"
     return (<div className={`relative flex flex-col items-center space-y-8`}>
         <div className="relative w-full flex flex-col">
             <div className={`relative w-full z-10 md:rounded-3xl overflow-hidden`}>
@@ -70,7 +71,7 @@ const EventDetails = ({}: EventDetailsType) => {
                 </div>
             </div>
             <div className="flex flex-col md:w-3/12">
-                    <button disabled={!hasPlace} onClick={() => changeModalOpen({ isModalOpen: true })} className={`urbanist order-3 md:order-none ${buttonStyle} font-black py-2 rounded-lg mt-6 md:mt-0 md:mb-6`}>
+                    <button disabled={!hasPlace || isDone} onClick={() => changeModalOpen({ isModalOpen: true })} className={`urbanist order-3 md:order-none ${buttonStyle} font-black py-2 rounded-lg mt-6 md:mt-0 md:mb-6`}>
                         {buttonText}
                     </button>
                     <div className="flex space-x-2 self-start items-center justify-cente bg-tag-orange px-5 py-1.5 rounded-full mb-10">
@@ -104,7 +105,7 @@ const EventDetails = ({}: EventDetailsType) => {
                             <p className="flex flex-col leading-tight">
                                 <span className="font-semibold text-gray-400">Nombre d&apos;inscrits</span>
                                 <span>
-                                    <span className="font-bold">{selectedEvent.participants ? `${nbParticipants}` : `0`}</span>{places ? <span className="text-sm text-title-orange ml-1">{places}</span> : null}
+                                    <span className="font-bold">{selectedEvent.participants ? `${nbParticipants}` : `0`}</span>{places && !isDone ? <span className="text-sm text-title-orange ml-1">{places}</span> : null}
                                 </span>
                             </p>
                         </div>
