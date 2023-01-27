@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAppActions, useAppState } from "../store";
 import { fr } from 'date-fns/locale'
-import { addDays, subDays, format } from 'date-fns';
+import { addDays, subDays, format, isAfter } from 'date-fns';
 import { EventType, UserType } from "../store/store.model";
 import LocationMap from "./LocationMap";
 import { frenchDate } from "../utils/utils";
@@ -25,7 +25,7 @@ const EventDetails = ({}: EventDetailsType) => {
     const nbParticipants = selectedEvent.participants.length + selectedEvent.participants?.reduce((curr, part) => curr + part.children, 0) || 0
     const placeLeft = nbParticipants ? selectedEvent.max_size - nbParticipants : selectedEvent.max_size
     const places = placeLeft < 6 ? `reste ${placeLeft} place(s)` : null
-    const hasPlace = nbParticipants < selectedEvent?.max_size ?? true
+    const hasPlace = (nbParticipants < selectedEvent?.max_size) && isAfter(new Date(selectedEvent.subscription_end), Date.now())
     const buttonStyleAlt = isRegistered ? `text-title-orange bg-white map-drop-shadow` : 'suggest text-white'
     const buttonStyle = !hasPlace ? 'bg-gray-300 text-gray-500' : buttonStyleAlt
     const buttonTextAlt = isRegistered ? "SE DÉSINSCRIRE" : "JE M'INSCRIS"

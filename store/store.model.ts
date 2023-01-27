@@ -57,6 +57,7 @@ import { string } from 'yup';
     extend_form: { label: string; checked: boolean }[];
     published_at: Date;
     created_at: Date;
+    subscription_end: Date;
 }
 
  /**
