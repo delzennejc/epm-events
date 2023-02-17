@@ -32,7 +32,7 @@ const AppHead = ({ title, image }: AppHead) => {
             {isNotDevelopment && (
             <>
                 {/* Global Site Tag (gtag.js) - Google Analytics */}
-                <script
+                {/* <script
                     async
                     src={`https://www.googletagmanager.com/gtag/js?id=G-6SVYFY541V`}
                 />
@@ -47,9 +47,9 @@ const AppHead = ({ title, image }: AppHead) => {
                         });
                         `,
                     }}
-                />
+                /> */}
                 {/* Hotjar Tracking Code for www.builda.app */}
-                <script
+                {/* <script
                     dangerouslySetInnerHTML={{
                     __html: `
                         (function(h,o,t,j,a,r){
@@ -62,7 +62,7 @@ const AppHead = ({ title, image }: AppHead) => {
                         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
                         `,
                     }}
-                />
+                /> */}
             </>
         )}
       </Head>
