@@ -19,7 +19,7 @@ const AdminDetails = ({ }: AdminDetailsType) => {
     const changeSelectedEvent = useAppActions(actions => actions.changeSelectedEvent)
     const changeIsSendEmail = useAppActions(actions => actions.changeIsSendEmail)
     const changeModalOpen = useAppActions(actions => actions.changeModalOpen)
-    const events = _.flatten(eventsStore)
+    const events = _.compact(_.flatten(eventsStore))
     const onUnSubscribe = (eventId: string, part: InviteType) => {
         if (confirm(`Est-ce que tu es sur de vouloir désinscrire: ${part.first_name} ${part.last_name}?`) == true) {
             removeParticipant({ eventId, participant: part })
