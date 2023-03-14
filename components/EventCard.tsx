@@ -24,7 +24,7 @@ const EventCard = ({ id, image, title, time, address, station, link, small = fal
     const split = isMobile || small
     const imageStyle = split ? 'w-full h-40 rounded-lg' : 'w-full h-60 rounded-xl'
     const rounded = split ? 'rounded-lg' : 'rounded-xl'
-    const layoutStyle = split ? 'px-3 py-3' : 'px-5 py-5'
+    const layoutStyle = split ? 'px-3 py-3 mb-8' : 'px-5 py-5'
     const titleSize = split ? 'w-11/12 text-2xl' : 'w-4/6 text-4xl'
     const textStyle = split ? 'space-x-3 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
     const textStyle2 = split ? 'space-x-3.5 font-semibold text-md' : 'space-x-3 font-semibold text-lg'
